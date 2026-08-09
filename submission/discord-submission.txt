@@ -1,0 +1,6 @@
+Name: Daut
+Category: Unconventional 1v1 hybrid
+Description: The complete playable island forms a smiling portrait of DauT at CaptureAge full-map zoom. Players begin at mirrored ear positions with the required 9-villager start. The open face supports direct aggression, harvestable pine hair and salt-and-pepper beard create the wood economy and choppable flank routes, and a navigable water ring enables docks and naval counterplay. Raised cheeks, bright eyes, visible teeth, and an exaggerated upturned mouth preserve the smile at spectator scale. Five relics mark both eyes, both cheeks, and the central raised nose. The fixed 120 x 120 layout is horizontally mirrored, while player colors swap sides independently. No unit or building behavior is modified.
+Recommended settings: 1v1, Tiny, Standard resources, Dark Age, Standard or Conquest victory.
+Files: Daut.rms and the attached in-game screenshots.
+Creator: henrihallik / betwixtX

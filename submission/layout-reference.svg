@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
+  <title id="title">Daut competition map layout reference</title>
+  <desc id="description">A horizontally mirrored hybrid Age of Empires II map whose central playable island forms a smiling bearded face, with player starts at the ears and water surrounding the portrait.</desc>
+
+  <defs>
+    <pattern id="water-lines" width="28" height="18" patternUnits="userSpaceOnUse">
+      <path d="M0 9 Q7 3 14 9 T28 9" fill="none" stroke="#73b9cf" stroke-width="2" opacity="0.42"/>
+    </pattern>
+    <pattern id="hair-texture" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="5" r="2.4" fill="#173b2d"/>
+      <circle cx="12" cy="11" r="2.8" fill="#476346"/>
+    </pattern>
+    <pattern id="beard-texture" width="17" height="17" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="2.2" fill="#485149"/>
+      <circle cx="13" cy="12" r="2.6" fill="#72786d"/>
+    </pattern>
+    <symbol id="relic" viewBox="0 0 20 20">
+      <path d="M10 1.5 12.5 7l6 .6-4.5 4 1.3 5.9-5.3-3-5.3 3L6 11.6l-4.5-4 6-.6Z" fill="#f4c542" stroke="#6f5314" stroke-width="1.2"/>
+    </symbol>
+    <symbol id="tc" viewBox="0 0 28 28">
+      <path d="M3 12 14 3l11 9v13H3Z" fill="currentColor" stroke="#ffffff" stroke-width="1.8"/>
+      <path d="M11 25v-8h6v8M8 13h3v4H8m9-4h3v4h-3" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+    </symbol>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#f7f1e4"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#edf0ef"/>
+  <text x="70" y="52" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#202725">Daut</text>
+  <text x="1530" y="52" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="16" fill="#59635f">ORIGINAL DESIGN REFERENCE · NOT AN IN-GAME SCREENSHOT</text>
+
+  <rect x="58" y="78" width="844" height="844" fill="#ffffff" stroke="#c8cfcc" stroke-width="2"/>
+  <svg x="60" y="80" width="840" height="840" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#28779e"/>
+    <rect width="100" height="100" fill="url(#water-lines)"/>
+
+    <!-- Fixed stepped head silhouette used by the RMS. -->
+    <path d="M40 7H60V12H68V19H74V27H79V37H83V41H91V64H82V70H75V80H66V89H58V94H42V89H34V80H25V70H18V64H9V41H17V37H21V27H26V19H32V12H40Z" fill="#d9a664" stroke="#764f2e" stroke-width="0.8"/>
+
+    <!-- Harvestable pine hair. -->
+    <path d="M38 7H62V17H73V24H80V40H69V24H56V20H44V24H31V40H20V21H27V13H38Z" fill="#294c36" stroke="#173126" stroke-width="0.7"/>
+    <path d="M38 7H62V17H73V24H80V40H69V24H56V20H44V24H31V40H20V21H27V13H38Z" fill="url(#hair-texture)" opacity="0.9"/>
+
+    <!-- Harvestable beard and sideburns. -->
+    <path d="M18 40H26V57H33V68H41V78H51V90H38V81H27V70H19V58H18ZM82 40H74V57H67V68H59V78H49V90H62V81H73V70H81V58H82Z" fill="#60695f" stroke="#353c37" stroke-width="0.7"/>
+    <path d="M18 40H26V57H33V68H41V78H51V90H38V81H27V70H19V58H18ZM82 40H74V57H67V68H59V78H49V90H62V81H73V70H81V58H82Z" fill="url(#beard-texture)" opacity="0.95"/>
+
+    <!-- Raised cheeks. -->
+    <rect x="25" y="47" width="13" height="10" fill="#d88765" stroke="#9b5e4b" stroke-width="0.55"/>
+    <rect x="62" y="47" width="13" height="10" fill="#d88765" stroke="#9b5e4b" stroke-width="0.55"/>
+
+    <!-- Brows, eyes, and pupils. -->
+    <path d="M28 35V30H45V35ZM55 35V30H72V35Z" fill="#3a3935"/>
+    <rect x="30" y="36" width="14" height="8" fill="#eef4f3" stroke="#6f807d" stroke-width="0.55"/>
+    <rect x="56" y="36" width="14" height="8" fill="#eef4f3" stroke="#6f807d" stroke-width="0.55"/>
+    <rect x="37" y="38" width="5" height="6" fill="#282d2c"/>
+    <rect x="58" y="38" width="5" height="6" fill="#282d2c"/>
+    <circle cx="39.7" cy="39.7" r="0.85" fill="#ffffff"/>
+    <circle cx="60.3" cy="39.7" r="0.85" fill="#ffffff"/>
+
+    <!-- Raised nose. -->
+    <path d="M47 39H53V53H57V60H43V53H47Z" fill="#ebbd79" stroke="#9d7042" stroke-width="0.6"/>
+
+    <!-- Moustache. -->
+    <path d="M35 57H50V63H39L35 61ZM65 57H50V63H61L65 61Z" fill="#525a53" stroke="#343a35" stroke-width="0.55"/>
+
+    <!-- Dark mouth, visible teeth, and deliberately upturned U-shaped lower arc. -->
+    <path d="M30 62H40V64H60V62H70V69H64V73H56V78H44V73H36V69H30Z" fill="#433536" stroke="#291f20" stroke-width="0.7"/>
+    <path d="M39 64H61V69H57L55 70H45L43 69H39Z" fill="#f8f5e9" stroke="#b6b2a7" stroke-width="0.45"/>
+    <path d="M35 68H46V73H44V75H56V73H54V68H65V73H57V78H43V73H35Z" fill="#35292a"/>
+
+    <!-- Fixed five-relic facial objectives. -->
+    <use href="#relic" x="31.5" y="36" width="7" height="7"/>
+    <use href="#relic" x="61.5" y="36" width="7" height="7"/>
+    <use href="#relic" x="28" y="48.5" width="7" height="7"/>
+    <use href="#relic" x="65" y="48.5" width="7" height="7"/>
+    <use href="#relic" x="46.5" y="53" width="7" height="7"/>
+
+    <!-- Mirrored ear starts. -->
+    <circle cx="14" cy="52" r="5.5" fill="#2f6fd0" stroke="#ffffff" stroke-width="0.8"/>
+    <circle cx="86" cy="52" r="5.5" fill="#c83f39" stroke="#ffffff" stroke-width="0.8"/>
+    <use href="#tc" x="10.5" y="48.5" width="7" height="7" color="#2459ab"/>
+    <use href="#tc" x="82.5" y="48.5" width="7" height="7" color="#a92f2b"/>
+
+    <!-- Main attack and naval circulation indicators. -->
+    <path d="M21 52H42M79 52H58" fill="none" stroke="#f7f1e4" stroke-width="1.1" stroke-dasharray="2 1.4" marker-end="url(#arrow)"/>
+    <path d="M8 28C3 35 3 65 8 72M92 72C97 65 97 35 92 28" fill="none" stroke="#eaf8fc" stroke-width="1.1" stroke-dasharray="2 1.5" marker-end="url(#arrow)"/>
+  </svg>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="964" y="112" font-size="16" font-weight="700" fill="#9b5e36">UNCONVENTIONAL 1V1 HYBRID</text>
+    <text x="964" y="158" font-size="42" font-weight="700" fill="#202725">A smile you play on</text>
+    <text x="964" y="194" font-size="20" fill="#4f5b56">Fixed 120 × 120 portrait · exact horizontal symmetry</text>
+
+    <line x1="964" y1="226" x2="1524" y2="226" stroke="#cbd1ce" stroke-width="2"/>
+
+    <text x="964" y="270" font-size="22" font-weight="700" fill="#202725">Strategic anatomy</text>
+
+    <rect x="964" y="300" width="20" height="20" fill="#d9a664" stroke="#764f2e"/>
+    <text x="1000" y="317" font-size="18" fill="#303936">Open face</text>
+    <text x="1180" y="317" font-size="16" fill="#626d68">direct land aggression</text>
+
+    <rect x="964" y="342" width="20" height="20" fill="#294c36"/>
+    <text x="1000" y="359" font-size="18" fill="#303936">Pine hair</text>
+    <text x="1180" y="359" font-size="16" fill="#626d68">northern choppable lane</text>
+
+    <rect x="964" y="384" width="20" height="20" fill="#60695f"/>
+    <text x="1000" y="401" font-size="18" fill="#303936">Beard</text>
+    <text x="1180" y="401" font-size="16" fill="#626d68">wood economy + south flank</text>
+
+    <rect x="964" y="426" width="20" height="20" fill="#28779e"/>
+    <text x="1000" y="443" font-size="18" fill="#303936">Water ring</text>
+    <text x="1180" y="443" font-size="16" fill="#626d68">fish, docks, transport raids</text>
+
+    <rect x="964" y="468" width="20" height="20" fill="#ebbd79" stroke="#9d7042"/>
+    <text x="1000" y="485" font-size="18" fill="#303936">Raised nose</text>
+    <text x="1180" y="485" font-size="16" fill="#626d68">central castle objective</text>
+
+    <line x1="964" y1="525" x2="1524" y2="525" stroke="#cbd1ce" stroke-width="2"/>
+
+    <text x="964" y="570" font-size="22" font-weight="700" fill="#202725">Tournament start</text>
+    <text x="964" y="606" font-size="18" fill="#303936">9 villagers · Town Center · 2 houses · scout</text>
+    <text x="964" y="640" font-size="18" fill="#303936">15 gold · 9 stone · standard opening food</text>
+    <text x="964" y="674" font-size="18" fill="#303936">4 shore fish + 6 deep fish per player</text>
+
+    <line x1="964" y1="710" x2="1524" y2="710" stroke="#cbd1ce" stroke-width="2"/>
+
+    <text x="964" y="755" font-size="22" font-weight="700" fill="#202725">The smile contract</text>
+    <path d="M971 805Q1030 865 1089 805" fill="none" stroke="#433536" stroke-width="10" stroke-linecap="square"/>
+    <rect x="1001" y="802" width="58" height="16" fill="#f8f5e9" stroke="#aaa69d"/>
+    <text x="1120" y="811" font-size="18" fill="#303936">raised corners</text>
+    <text x="1120" y="841" font-size="18" fill="#303936">bright teeth</text>
+    <text x="1120" y="871" font-size="18" fill="#303936">lowest center arc</text>
+
+    <text x="964" y="928" font-size="15" fill="#6b7571">Diagram shows intended authored geometry. Final submission requires</text>
+    <text x="964" y="951" font-size="15" fill="#6b7571">in-game CaptureAge screenshots and Definitive Edition seed testing.</text>
+  </g>
+</svg>

@@ -1,0 +1,1126 @@
+/* Compatibility: Age of Empires II: Definitive Edition */
+/*
+    Daut v0.1.0
+    The Garrison 2026 map competition prototype.
+
+    Designed for:
+      - 1v1 Random Map
+      - Tiny map, forced to 120 x 120 tiles for portrait fidelity
+      - Standard resources
+      - Mandatory 9-villager tournament quick start
+
+    Layout and identity:
+      - The complete playable island is a smiling portrait of DauT.
+      - Player starts are mirrored at the ears.
+      - Pine hair and dead-forest beard are ordinary harvestable woodlines.
+      - Raised cheeks, bright eyes, a highlighted nose, visible teeth, and an
+        exaggerated upturned mouth keep the expression readable at full zoom.
+      - Five relics mark the eyes, cheeks, and nose.
+      - A navigable water ring supports docks and naval counterplay.
+
+    Competitive integrity:
+      - Every strategic feature is horizontally mirrored.
+      - Player colors swap sides independently of the fixed portrait.
+      - No unit or building attributes are changed.
+      - No triggers, XS, custom includes, scripted income, capturable
+        buildings, guardians, or object-attribute changes are used.
+*/
+
+/* Reliable built-in Definitive Edition terrain IDs. */
+#const FACE_GROUND 14
+#const CHEEK_GROUND 41
+#const NOSE_GROUND 42
+#const SEA_WATER 23
+#const SEA_DEEP 22
+#const HAIR_FOREST 19
+#const BEARD_FOREST 106
+#const BROW_GROUND 40
+#const EYE_WHITE 32
+#const TEETH_WHITE 74
+#const MOUTH_GROUND 40
+
+/* Object aliases. */
+#const START_HERDABLE 594
+#const START_LUREABLE 48
+#const START_HUNTABLE 65
+#const START_TREE 349
+#const HARBOR_FISH 457
+#const DECORATIVE_ROCK 623
+
+/* Stable player and objective land identifiers. */
+#const LEFT_HOME_ID 101
+#const RIGHT_HOME_ID 102
+#const LEFT_EYE_ID 201
+#const RIGHT_EYE_ID 202
+#const LEFT_CHEEK_ID 203
+#const RIGHT_CHEEK_ID 204
+#const NOSE_TIP_ID 205
+
+/* Smile identifiers are validated as a geometric contract. */
+#const LEFT_SMILE_CORNER_ID 301
+#const SMILE_MOUTH_ID 302
+#const RIGHT_SMILE_CORNER_ID 303
+#const TEETH_ID 304
+#const LEFT_LOWER_SMILE_ID 305
+#const CENTER_LOWER_SMILE_ID 306
+#const RIGHT_LOWER_SMILE_ID 307
+
+/* Land zones. */
+#const FACE_ZONE 10
+#const LEFT_HOME_ZONE 11
+#const RIGHT_HOME_ZONE 12
+#const FEATURE_ZONE 20
+
+/* Per-player actor areas. */
+#const TC_AREA 1000
+#const VILLAGER_AREA 1010
+
+/* Player color never determines the side of the portrait. */
+start_random
+    percent_chance 50 #define PLAYER_ONE_LEFT
+    percent_chance 50 #define PLAYER_TWO_LEFT
+end_random
+
+
+<PLAYER_SETUP>
+
+direct_placement
+behavior_version 2
+override_map_size 120
+ai_info_map_type RIVERS 0 0 0
+
+/* Established Garrison-style adjustment for the 9-villager quick start. */
+effect_amount MOD_RESOURCE AMOUNT_STARTING_WOOD ATTR_ADD -30
+effect_amount MOD_RESOURCE AMOUNT_STARTING_FOOD ATTR_ADD -100
+
+
+<LAND_GENERATION>
+
+base_terrain SEA_WATER
+enable_waves 0
+
+/*
+    Ten overlapping skin bands create a broad head, cheekbones, jaw, and chin.
+    The fixed 120-tile canvas makes this stepped silhouette deterministic.
+*/
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 10
+    left_border 40
+    right_border 40
+    top_border 7
+    bottom_border 86
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 16
+    left_border 32
+    right_border 32
+    top_border 12
+    bottom_border 79
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 24
+    left_border 26
+    right_border 26
+    top_border 19
+    bottom_border 71
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 33
+    left_border 21
+    right_border 21
+    top_border 27
+    bottom_border 61
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 43
+    left_border 17
+    right_border 17
+    top_border 37
+    bottom_border 51
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 54
+    left_border 14
+    right_border 14
+    top_border 47
+    bottom_border 39
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 64
+    left_border 18
+    right_border 18
+    top_border 59
+    bottom_border 30
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 73
+    left_border 25
+    right_border 25
+    top_border 68
+    bottom_border 20
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 83
+    left_border 34
+    right_border 34
+    top_border 78
+    bottom_border 11
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 90
+    left_border 42
+    right_border 42
+    top_border 87
+    bottom_border 6
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FACE_ZONE
+}
+
+/* Mirrored ear starts also widen the dockable coastline. */
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 7
+    land_position 14 52
+    left_border 9
+    right_border 73
+    top_border 41
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone LEFT_HOME_ZONE
+    land_id LEFT_HOME_ID
+    if PLAYER_ONE_LEFT
+        assign_to_player 1
+    else
+        assign_to_player 2
+    endif
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 7
+    land_position 86 52
+    left_border 73
+    right_border 9
+    top_border 41
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RIGHT_HOME_ZONE
+    land_id RIGHT_HOME_ID
+    if PLAYER_ONE_LEFT
+        assign_to_player 2
+    else
+        assign_to_player 1
+    endif
+}
+
+/* Pine hair: a central cap, two crown lobes, and two temples. */
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 2
+    land_position 50 12
+    left_border 38
+    right_border 38
+    top_border 7
+    bottom_border 83
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 2
+    land_position 35 18
+    left_border 27
+    right_border 56
+    top_border 13
+    bottom_border 76
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 2
+    land_position 65 18
+    left_border 56
+    right_border 27
+    top_border 13
+    bottom_border 76
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 2
+    land_position 25 30
+    left_border 20
+    right_border 69
+    top_border 21
+    bottom_border 60
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 2
+    land_position 75 30
+    left_border 69
+    right_border 20
+    top_border 21
+    bottom_border 60
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/* Salt-and-pepper beard bands are large, ordinary harvestable woodlines. */
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 22 49
+    left_border 18
+    right_border 74
+    top_border 40
+    bottom_border 42
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 78 49
+    left_border 74
+    right_border 18
+    top_border 40
+    bottom_border 42
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 26 63
+    left_border 19
+    right_border 67
+    top_border 57
+    bottom_border 30
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 74 63
+    left_border 67
+    right_border 19
+    top_border 57
+    bottom_border 30
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 34 74
+    left_border 27
+    right_border 59
+    top_border 68
+    bottom_border 19
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 66 74
+    left_border 59
+    right_border 27
+    top_border 68
+    bottom_border 19
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 44 84
+    left_border 38
+    right_border 49
+    top_border 78
+    bottom_border 10
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 2
+    land_position 56 84
+    left_border 49
+    right_border 38
+    top_border 78
+    bottom_border 10
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/* Raised cheeks make the expression visible through CaptureAge shadows. */
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 31 52
+    left_border 25
+    right_border 62
+    top_border 47
+    bottom_border 43
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    base_elevation 1
+    zone FEATURE_ZONE
+    land_id LEFT_CHEEK_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 69 52
+    left_border 62
+    right_border 25
+    top_border 47
+    bottom_border 43
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    base_elevation 1
+    zone FEATURE_ZONE
+    land_id RIGHT_CHEEK_ID
+}
+
+/* A narrow raised nose ridge leads to the central nose-tip objective. */
+create_land {
+    terrain_type NOSE_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 47
+    left_border 47
+    right_border 47
+    top_border 39
+    bottom_border 44
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    base_elevation 1
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type NOSE_GROUND
+    land_percent 100
+    base_size 2
+    land_position 50 56
+    left_border 43
+    right_border 43
+    top_border 53
+    bottom_border 40
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    base_elevation 2
+    zone FEATURE_ZONE
+    land_id NOSE_TIP_ID
+}
+
+/* Heavy brows. */
+create_land {
+    terrain_type BROW_GROUND
+    land_percent 100
+    base_size 1
+    land_position 36 33
+    left_border 28
+    right_border 55
+    top_border 30
+    bottom_border 65
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BROW_GROUND
+    land_percent 100
+    base_size 1
+    land_position 64 33
+    left_border 55
+    right_border 28
+    top_border 30
+    bottom_border 65
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/* Bright eye whites and dark pupils remain visible from the full-map view. */
+create_land {
+    terrain_type EYE_WHITE
+    land_percent 100
+    base_size 2
+    land_position 37 40
+    left_border 30
+    right_border 56
+    top_border 36
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id LEFT_EYE_ID
+}
+
+create_land {
+    terrain_type EYE_WHITE
+    land_percent 100
+    base_size 2
+    land_position 63 40
+    left_border 56
+    right_border 30
+    top_border 36
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id RIGHT_EYE_ID
+}
+
+create_land {
+    terrain_type BROW_GROUND
+    land_percent 100
+    base_size 1
+    land_position 40 41
+    left_border 37
+    right_border 58
+    top_border 38
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BROW_GROUND
+    land_percent 100
+    base_size 1
+    land_position 60 41
+    left_border 58
+    right_border 37
+    top_border 38
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/* The moustache frames rather than hides the teeth. */
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 1
+    land_position 43 60
+    left_border 35
+    right_border 50
+    top_border 57
+    bottom_border 37
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 1
+    land_position 57 60
+    left_border 50
+    right_border 35
+    top_border 57
+    bottom_border 37
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/*
+    Exaggerated smiling mouth. The corners are higher than the lower side arcs,
+    and the center of the lower arc is lowest, producing an unmistakable U.
+*/
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 1
+    land_position 35 65
+    left_border 30
+    right_border 60
+    top_border 62
+    bottom_border 31
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id LEFT_SMILE_CORNER_ID
+}
+
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 2
+    land_position 50 68
+    left_border 38
+    right_border 38
+    top_border 64
+    bottom_border 26
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id SMILE_MOUTH_ID
+}
+
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 1
+    land_position 65 65
+    left_border 60
+    right_border 30
+    top_border 62
+    bottom_border 31
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id RIGHT_SMILE_CORNER_ID
+}
+
+create_land {
+    terrain_type TEETH_WHITE
+    land_percent 100
+    base_size 2
+    land_position 50 66
+    left_border 39
+    right_border 39
+    top_border 64
+    bottom_border 31
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id TEETH_ID
+}
+
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 1
+    land_position 41 70
+    left_border 35
+    right_border 54
+    top_border 68
+    bottom_border 27
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id LEFT_LOWER_SMILE_ID
+}
+
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 1
+    land_position 50 74
+    left_border 44
+    right_border 44
+    top_border 72
+    bottom_border 22
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id CENTER_LOWER_SMILE_ID
+}
+
+create_land {
+    terrain_type MOUTH_GROUND
+    land_percent 100
+    base_size 1
+    land_position 59 70
+    left_border 54
+    right_border 35
+    top_border 68
+    bottom_border 27
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id RIGHT_LOWER_SMILE_ID
+}
+
+
+<ELEVATION_GENERATION>
+
+/* Required because the authored cheek and nose lands use base_elevation. */
+
+
+<TERRAIN_GENERATION>
+
+/* Varied depths make the naval ring legible without changing its topology. */
+create_terrain SEA_DEEP {
+    base_terrain SEA_WATER
+    land_percent 52
+    number_of_clumps 18
+    clumping_factor 8
+    spacing_to_other_terrain_types 2
+    terrain_mask 1
+}
+
+
+<CONNECTION_GENERATION>
+
+/* Every face band overlaps its neighbors; no generated repair road is needed. */
+
+
+<OBJECTS_GENERATION>
+
+/* Mandatory 9-villager quick start. */
+create_object TOWN_CENTER {
+    set_place_for_every_player
+    min_distance_to_players 0
+    max_distance_to_players 0
+    force_placement
+    actor_area TC_AREA
+    actor_area_radius 7
+}
+
+create_object START_TREE {
+    number_of_objects 1
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 5
+    max_distance_to_players 6
+    find_closest
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    actor_area VILLAGER_AREA
+    actor_area_radius 2
+}
+
+create_object VILLAGER {
+    number_of_objects 9
+    set_place_for_every_player
+    actor_area_to_place_in VILLAGER_AREA
+    force_placement
+}
+
+create_object HOUSE {
+    number_of_objects 2
+    set_place_for_every_player
+    min_distance_to_players 7
+    max_distance_to_players 10
+    find_closest
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    avoid_actor_area TC_AREA
+    temp_min_distance_group_placement 4
+}
+
+create_object SCOUT {
+    number_of_objects 1
+    set_place_for_every_player
+    min_distance_to_players 7
+    max_distance_to_players 10
+    force_placement
+    terrain_to_place_on FACE_GROUND
+}
+
+/* Standard, equal opening food. */
+create_object START_HERDABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 4
+    max_distance_to_players 7
+    find_closest
+    force_placement
+    terrain_to_place_on FACE_GROUND
+}
+
+create_object START_HERDABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 3
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 9
+    max_distance_to_players 12
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 4
+}
+
+create_object FORAGE {
+    number_of_objects 6
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 9
+    max_distance_to_players 14
+    find_closest
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    avoid_actor_area TC_AREA
+}
+
+create_object START_LUREABLE {
+    number_of_objects 1
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 12
+    max_distance_to_players 17
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 4
+}
+
+create_object START_LUREABLE {
+    number_of_objects 1
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 15
+    max_distance_to_players 20
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 6
+}
+
+create_object START_HUNTABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 4
+    set_loose_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 13
+    max_distance_to_players 19
+    force_placement
+    terrain_to_place_on FACE_GROUND
+}
+
+/* Primary and expansion mines use equal distance bands from the two ears. */
+create_object GOLD {
+    number_of_objects 7
+    number_of_groups 1
+    group_placement_radius 3
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 9
+    max_distance_to_players 15
+    find_closest
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    avoid_actor_area TC_AREA
+}
+
+create_object STONE {
+    number_of_objects 5
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 11
+    max_distance_to_players 17
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    avoid_actor_area TC_AREA
+}
+
+create_object GOLD {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 22
+    max_distance_to_players 31
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 8
+}
+
+create_object GOLD {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 34
+    max_distance_to_players 45
+    find_closest_to_map_center
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 10
+}
+
+create_object STONE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 24
+    max_distance_to_players 36
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    temp_min_distance_group_placement 9
+}
+
+/* Emergency stragglers; the hair and beard provide the main wood economy. */
+create_object START_TREE {
+    number_of_objects 8
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 5
+    max_distance_to_players 9
+    force_placement
+    terrain_to_place_on FACE_GROUND
+    avoid_actor_area TC_AREA
+    temp_min_distance_group_placement 1
+}
+
+/* Equal water food beside each ear makes a dock viable but not mandatory. */
+create_object SHORE_FISH {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 5
+    set_loose_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 9
+    max_distance_to_players 18
+    min_distance_to_map_edge 3
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+    force_placement
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 3
+    number_of_groups 2
+    group_placement_radius 6
+    set_loose_grouping
+    set_gaia_object_only
+    set_place_for_every_player
+    min_distance_to_players 14
+    max_distance_to_players 31
+    min_distance_to_map_edge 4
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 7
+    force_placement
+}
+
+/* Five facial objectives: both eyes, both raised cheeks, and the nose tip. */
+create_object RELIC {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_EYE_ID
+    force_placement
+}
+
+create_object RELIC {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_EYE_ID
+    force_placement
+}
+
+create_object RELIC {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_CHEEK_ID
+    force_placement
+}
+
+create_object RELIC {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_CHEEK_ID
+    force_placement
+}
+
+create_object RELIC {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id NOSE_TIP_ID
+    find_closest_to_map_center
+    force_placement
+}
+
+/* Close-camera texture on the brows and smile; these are visual only. */
+create_object DECORATIVE_ROCK {
+    number_of_objects 18
+    number_of_groups 1
+    group_placement_radius 2
+    set_loose_grouping
+    set_gaia_object_only
+    terrain_to_place_on BROW_GROUND
+    min_distance_to_players 14
+    temp_min_distance_group_placement 2
+}
