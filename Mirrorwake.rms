@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.1.1
+    Mirrorwake v0.1.2
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -21,7 +21,8 @@
     Competitive integrity:
       - Every strategic feature is horizontally mirrored.
       - Player colors swap sides independently of the fixed portrait.
-      - Primary gold and stone keep workable clearance from each other and wood.
+      - Berries, primary mines, and wood keep separate working areas.
+      - Home and secondary mines use equal closest-valid distance rules.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
         buildings, guardians, or object-attribute changes are used.
@@ -77,6 +78,7 @@
 #const VILLAGER_AREA 1010
 #const PRIMARY_GOLD_AREA 1020
 #const PRIMARY_STONE_AREA 1030
+#const BERRIES_AREA 1040
 
 /* Player color never determines the side of the portrait. */
 start_random
@@ -921,10 +923,14 @@ create_object FORAGE {
     set_place_for_every_player
     min_distance_to_players 9
     max_distance_to_players 14
+    set_circular_placement
     find_closest
+    enable_tile_shuffling
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    actor_area BERRIES_AREA
+    actor_area_radius 5
 }
 
 create_object START_LUREABLE {
@@ -972,10 +978,13 @@ create_object GOLD {
     set_place_for_every_player
     min_distance_to_players 9
     max_distance_to_players 15
+    set_circular_placement
     find_closest
+    enable_tile_shuffling
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_actor_area BERRIES_AREA
     avoid_forest_zone 3
     actor_area PRIMARY_GOLD_AREA
     actor_area_radius 6
@@ -990,9 +999,13 @@ create_object STONE {
     set_place_for_every_player
     min_distance_to_players 11
     max_distance_to_players 17
+    set_circular_placement
+    find_closest
+    enable_tile_shuffling
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_actor_area BERRIES_AREA
     avoid_forest_zone 3
     avoid_actor_area PRIMARY_GOLD_AREA
     actor_area PRIMARY_STONE_AREA
@@ -1008,6 +1021,9 @@ create_object GOLD {
     set_place_for_every_player
     min_distance_to_players 22
     max_distance_to_players 31
+    set_circular_placement
+    find_closest
+    enable_tile_shuffling
     force_placement
     terrain_to_place_on FACE_GROUND
     temp_min_distance_group_placement 8
@@ -1037,6 +1053,9 @@ create_object STONE {
     set_place_for_every_player
     min_distance_to_players 24
     max_distance_to_players 36
+    set_circular_placement
+    find_closest
+    enable_tile_shuffling
     force_placement
     terrain_to_place_on FACE_GROUND
     temp_min_distance_group_placement 9
@@ -1052,6 +1071,7 @@ create_object START_TREE {
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_actor_area BERRIES_AREA
     avoid_actor_area PRIMARY_GOLD_AREA
     avoid_actor_area PRIMARY_STONE_AREA
     temp_min_distance_group_placement 1

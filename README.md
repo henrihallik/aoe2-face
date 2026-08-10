@@ -31,7 +31,8 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - 9 villagers, one Town Center, two houses, and one scout per player
 - 8 sheep, 2 boar, 4 deer, and 6 berries per player
 - 15 gold and 9 stone per player across home, secondary, and forward bands
-- Protected home-mine spacing keeps primary gold and stone apart from each other and nearby trees
+- Protected working areas keep berries, primary gold, primary stone, and nearby trees apart
+- Circular closest-valid placement gives both players the same primary and secondary mine-distance priority
 - 8 emergency stragglers plus large harvestable hair and beard forests
 - 4 shore fish and 6 deep fish per player
 - 5 fixed central relics

@@ -183,6 +183,7 @@ for (const [name, value] of [
   ["VILLAGER_AREA", 1010],
   ["PRIMARY_GOLD_AREA", 1020],
   ["PRIMARY_STONE_AREA", 1030],
+  ["BERRIES_AREA", 1040],
 ]) {
   assert.equal(constants.get(name), value, `${name} must keep terrain/object ID ${value}`);
 }
@@ -414,6 +415,11 @@ const villagers = perPlayer.filter((block) => block.name === "VILLAGER");
 assert.equal(villagers.length, 1, "villagers must use one compact start block");
 assert.equal(valueFor("actor_area_to_place_in", villagers[0].body), "VILLAGER_AREA");
 
+const forages = perPlayer.filter((block) => block.name === "FORAGE");
+assert.equal(forages.length, 1, "berries must use one home forage block");
+assert.equal(valueFor("actor_area", forages[0].body), "BERRIES_AREA");
+assert.equal(valueFor("actor_area_radius", forages[0].body), "5");
+
 const startTrees = perPlayer.filter((block) => block.name === "START_TREE");
 assert.equal(startTrees.length, 2, "one villager anchor and one straggler block are required");
 assert.equal(totalFor("START_TREE", perPlayer), 9, "each player requires eight stragglers plus the anchor tree");
@@ -433,8 +439,16 @@ assert.ok(stragglers, "the eight emergency stragglers must remain identifiable")
 assert.equal(valueFor("avoid_forest_zone", primaryGold.body), "3");
 assert.equal(valueFor("actor_area", primaryGold.body), "PRIMARY_GOLD_AREA");
 assert.equal(valueFor("actor_area_radius", primaryGold.body), "6");
+assert.ok(
+  valuesFor("avoid_actor_area", primaryGold.body).includes("BERRIES_AREA"),
+  "primary gold must avoid the berry working area",
+);
 
 assert.equal(valueFor("avoid_forest_zone", primaryStone.body), "3");
+assert.ok(
+  valuesFor("avoid_actor_area", primaryStone.body).includes("BERRIES_AREA"),
+  "primary stone must avoid the berry working area",
+);
 assert.ok(
   valuesFor("avoid_actor_area", primaryStone.body).includes("PRIMARY_GOLD_AREA"),
   "primary stone must avoid the primary gold working area",
@@ -442,12 +456,41 @@ assert.ok(
 assert.equal(valueFor("actor_area", primaryStone.body), "PRIMARY_STONE_AREA");
 assert.equal(valueFor("actor_area_radius", primaryStone.body), "5");
 
-for (const area of ["PRIMARY_GOLD_AREA", "PRIMARY_STONE_AREA"]) {
+for (const area of ["BERRIES_AREA", "PRIMARY_GOLD_AREA", "PRIMARY_STONE_AREA"]) {
   assert.ok(
     valuesFor("avoid_actor_area", stragglers.body).includes(area),
     `emergency stragglers must avoid ${area}`,
   );
 }
+
+for (const [label, block] of [
+  ["berries", forages[0]],
+  ["primary gold", golds[0]],
+  ["secondary gold", golds[1]],
+  ["primary stone", stones[0]],
+  ["secondary stone", stones[1]],
+]) {
+  assert.match(block.body, /\bset_circular_placement\b/, `${label} must use circular distances`);
+  assert.match(block.body, /\bfind_closest\b/, `${label} must use the closest valid distance`);
+  assert.match(block.body, /\benable_tile_shuffling\b/, `${label} must avoid directional tile bias`);
+}
+
+assert.deepEqual(
+  [
+    valueFor("min_distance_to_players", golds[1].body),
+    valueFor("max_distance_to_players", golds[1].body),
+  ],
+  ["22", "31"],
+  "secondary gold distance band drifted",
+);
+assert.deepEqual(
+  [
+    valueFor("min_distance_to_players", stones[1].body),
+    valueFor("max_distance_to_players", stones[1].body),
+  ],
+  ["24", "36"],
+  "secondary stone distance band drifted",
+);
 
 const relics = neutral.filter((block) => block.name === "RELIC");
 assert.equal(totalFor("RELIC", relics), 5, "the face requires exactly five relics");
@@ -468,7 +511,8 @@ console.log("  portrait: 44 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
 console.log("  economy: 15 gold, 9 stone, 8 sheep, 2 boar, and 4 deer per player");
-console.log("  home mines: gold/stone separation and 3-tile forest clearance enforced");
+console.log("  home economy: berries, mines, and trees have separate working areas");
+console.log("  mine fairness: circular closest-valid placement removes directional bias");
 console.log("  hybrid food: 4 shore fish and 6 deep fish per player");
 console.log("  objectives: 5 relics on the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");

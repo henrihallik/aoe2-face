@@ -2,14 +2,14 @@
 
 Date: 2026-08-10
 
-This report covers the `v0.1.1` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
+This report covers the `v0.1.2` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
 
 ## Artifact Hashes
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `Mirrorwake.rms` | `087bee2af2e86ca11256815ff807f97eb3ef1a1bfef982e7f7d4432c592116c2` |
-| `tools/validate-rms.mjs` | `e511e6a316f0bac6c1a5222b43cc82032320b0bc78c438f2757e42e1a812f4cf` |
+| `Mirrorwake.rms` | `6bea1f4d9d39c0e49cc0a5c904cf03576b29887a2250de752477ac4649021eb2` |
+| `tools/validate-rms.mjs` | `8f10795148f1d8595a74b15587dc0695722b2ad3b10fe7a4937f5917ad56ce32` |
 | `submission/layout-reference.svg` | `c4c8ddfb71be4030d897b4ce19e90a5a1662f8f99aeb6fef4a3b0df436be91fc` |
 | `submission/layout-reference.png` | `abdc7ea8ee83d9a08f3e01fe27362458687a8ca8798b9a29dbc691fb62999c44` |
 
@@ -32,7 +32,8 @@ Result: pass.
 - The smile retains two raised corners, visible teeth, two lower side arcs, and a lowest central arc.
 - Both ear starts remain mirrored and each can receive either player color.
 - Each player receives a Town Center, 9 villagers, 2 houses, a scout, 15 gold tiles, 9 stone tiles, standard opening food, 4 shore fish, and 6 deep fish.
-- Primary gold and stone keep dedicated per-player avoidance areas, remain three tiles from all trees, and cannot be crowded by the later emergency stragglers.
+- Berries and primary mines keep dedicated per-player working areas; mines remain three tiles from all trees and cannot be crowded by later emergency stragglers.
+- Berries plus primary and secondary mines use circular closest-valid placement with tile shuffling, removing the east/west candidate-order bias.
 - Five relics remain fixed on the two eyes, two cheeks, and nose.
 - Triggers, XS, includes, attribute changes, capturable buildings, scripted income, and known hazardous terrain IDs 45 and 47 are absent.
 - An elevation section is present because the cheek and nose lands use `base_elevation`.
@@ -54,4 +55,4 @@ Result: pass.
 
 ## Runtime Status
 
-Earlier runtime generation exposed occasional home gold/stone crowding against nearby wood. `v0.1.1` adds explicit mine-to-mine and mine-to-tree clearance and now requires a fresh multi-seed runtime pass. Test 1v1, Tiny, Standard resources with an active AI opponent under All Visible first, then repeat under Normal fog of war before submission.
+Runtime testing exposed a primary gold overlapping berries and unequal secondary-mine distances between the two sides. `v0.1.2` adds berry-to-mine clearance and equal circular closest-valid placement rules, and now requires a fresh multi-seed runtime pass. Test 1v1, Tiny, Standard resources with an active AI opponent under All Visible first, then repeat under Normal fog of war before submission.
