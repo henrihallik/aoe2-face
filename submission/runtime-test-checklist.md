@@ -28,7 +28,9 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 - [ ] Generate at least 20 consecutive 1v1 seeds.
 - [ ] Confirm every Town Center, villager, house, scout, food group, mine, fish group, and relic appears in every seed.
 - [ ] Confirm each player has practical access to both a northern hair woodline and southern beard woodline.
-- [ ] Confirm neither start has a blocked Town Center exit or trapped resources.
+- [ ] Confirm each primary gold and stone group has a workable three-tile clearance from all nearby trees.
+- [ ] Confirm primary gold and stone do not touch, overlap, or obstruct each other's mining space.
+- [ ] Confirm neither start has a blocked Town Center exit or trapped food.
 - [ ] Confirm both ear coastlines permit a dock.
 - [ ] Confirm the water ring remains connected for ships in every seed.
 - [ ] Confirm five relics appear: left eye, right eye, left cheek, right cheek, and nose.

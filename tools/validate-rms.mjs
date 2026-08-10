@@ -179,6 +179,10 @@ for (const [name, value] of [
   ["START_TREE", 349],
   ["HARBOR_FISH", 457],
   ["DECORATIVE_ROCK", 623],
+  ["TC_AREA", 1000],
+  ["VILLAGER_AREA", 1010],
+  ["PRIMARY_GOLD_AREA", 1020],
+  ["PRIMARY_STONE_AREA", 1030],
 ]) {
   assert.equal(constants.get(name), value, `${name} must keep terrain/object ID ${value}`);
 }
@@ -414,6 +418,37 @@ const startTrees = perPlayer.filter((block) => block.name === "START_TREE");
 assert.equal(startTrees.length, 2, "one villager anchor and one straggler block are required");
 assert.equal(totalFor("START_TREE", perPlayer), 9, "each player requires eight stragglers plus the anchor tree");
 
+const golds = perPlayer.filter((block) => block.name === "GOLD");
+const stones = perPlayer.filter((block) => block.name === "STONE");
+assert.equal(golds.length, 3, "one primary and two expansion gold blocks are required");
+assert.equal(stones.length, 2, "one primary and one expansion stone block are required");
+
+const primaryGold = golds[0];
+const primaryStone = stones[0];
+const stragglers = startTrees.find(
+  (block) => valueFor("number_of_objects", block.body) === "8",
+);
+assert.ok(stragglers, "the eight emergency stragglers must remain identifiable");
+
+assert.equal(valueFor("avoid_forest_zone", primaryGold.body), "3");
+assert.equal(valueFor("actor_area", primaryGold.body), "PRIMARY_GOLD_AREA");
+assert.equal(valueFor("actor_area_radius", primaryGold.body), "6");
+
+assert.equal(valueFor("avoid_forest_zone", primaryStone.body), "3");
+assert.ok(
+  valuesFor("avoid_actor_area", primaryStone.body).includes("PRIMARY_GOLD_AREA"),
+  "primary stone must avoid the primary gold working area",
+);
+assert.equal(valueFor("actor_area", primaryStone.body), "PRIMARY_STONE_AREA");
+assert.equal(valueFor("actor_area_radius", primaryStone.body), "5");
+
+for (const area of ["PRIMARY_GOLD_AREA", "PRIMARY_STONE_AREA"]) {
+  assert.ok(
+    valuesFor("avoid_actor_area", stragglers.body).includes(area),
+    `emergency stragglers must avoid ${area}`,
+  );
+}
+
 const relics = neutral.filter((block) => block.name === "RELIC");
 assert.equal(totalFor("RELIC", relics), 5, "the face requires exactly five relics");
 assert.deepEqual(
@@ -433,6 +468,7 @@ console.log("  portrait: 44 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
 console.log("  economy: 15 gold, 9 stone, 8 sheep, 2 boar, and 4 deer per player");
+console.log("  home mines: gold/stone separation and 3-tile forest clearance enforced");
 console.log("  hybrid food: 4 shore fish and 6 deep fish per player");
 console.log("  objectives: 5 relics on the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");

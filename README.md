@@ -31,6 +31,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - 9 villagers, one Town Center, two houses, and one scout per player
 - 8 sheep, 2 boar, 4 deer, and 6 berries per player
 - 15 gold and 9 stone per player across home, secondary, and forward bands
+- Protected home-mine spacing keeps primary gold and stone apart from each other and nearby trees
 - 8 emergency stragglers plus large harvestable hair and beard forests
 - 4 shore fish and 6 deep fish per player
 - 5 fixed central relics
@@ -52,7 +53,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, terrain safety, all 44 authored lands, horizontal symmetry, the recognizable head silhouette, the upturned smile and teeth geometry, player starts, resources, fish, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, terrain safety, all 44 authored lands, horizontal symmetry, the recognizable head silhouette, the upturned smile and teeth geometry, player starts, home-mine clearances, resources, fish, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 

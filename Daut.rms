@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Daut v0.1.0
+    Daut v0.1.1
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -21,6 +21,7 @@
     Competitive integrity:
       - Every strategic feature is horizontally mirrored.
       - Player colors swap sides independently of the fixed portrait.
+      - Primary gold and stone keep workable clearance from each other and wood.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
         buildings, guardians, or object-attribute changes are used.
@@ -74,6 +75,8 @@
 /* Per-player actor areas. */
 #const TC_AREA 1000
 #const VILLAGER_AREA 1010
+#const PRIMARY_GOLD_AREA 1020
+#const PRIMARY_STONE_AREA 1030
 
 /* Player color never determines the side of the portrait. */
 start_random
@@ -959,7 +962,7 @@ create_object START_HUNTABLE {
     terrain_to_place_on FACE_GROUND
 }
 
-/* Primary and expansion mines use equal distance bands from the two ears. */
+/* Primary mines reserve workable clearances; expansions retain wider bands. */
 create_object GOLD {
     number_of_objects 7
     number_of_groups 1
@@ -973,6 +976,9 @@ create_object GOLD {
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_forest_zone 3
+    actor_area PRIMARY_GOLD_AREA
+    actor_area_radius 6
 }
 
 create_object STONE {
@@ -987,6 +993,10 @@ create_object STONE {
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_forest_zone 3
+    avoid_actor_area PRIMARY_GOLD_AREA
+    actor_area PRIMARY_STONE_AREA
+    actor_area_radius 5
 }
 
 create_object GOLD {
@@ -1042,6 +1052,8 @@ create_object START_TREE {
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
+    avoid_actor_area PRIMARY_GOLD_AREA
+    avoid_actor_area PRIMARY_STONE_AREA
     temp_min_distance_group_placement 1
 }
 
