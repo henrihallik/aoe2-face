@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.1.2
+    Mirrorwake v0.1.3
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -23,6 +23,7 @@
       - Player colors swap sides independently of the fixed portrait.
       - Berries, primary mines, and wood keep separate working areas.
       - Home and secondary mines use equal closest-valid distance rules.
+      - Assigned ear lands remain ID-free so DE repeats every player object.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
         buildings, guardians, or object-attribute changes are used.
@@ -49,9 +50,8 @@
 #const HARBOR_FISH 457
 #const DECORATIVE_ROCK 623
 
-/* Stable player and objective land identifiers. */
-#const LEFT_HOME_ID 101
-#const RIGHT_HOME_ID 102
+/* Stable objective land identifiers. Player lands intentionally have no
+   land_id because DE disables set_place_for_every_player when they carry one. */
 #const LEFT_EYE_ID 201
 #const RIGHT_EYE_ID 202
 #const LEFT_CHEEK_ID 203
@@ -272,7 +272,6 @@ create_land {
     clumping_factor 100
     other_zone_avoidance_distance 0
     zone LEFT_HOME_ZONE
-    land_id LEFT_HOME_ID
     if PLAYER_ONE_LEFT
         assign_to_player 1
     else
@@ -293,7 +292,6 @@ create_land {
     clumping_factor 100
     other_zone_avoidance_distance 0
     zone RIGHT_HOME_ZONE
-    land_id RIGHT_HOME_ID
     if PLAYER_ONE_LEFT
         assign_to_player 2
     else

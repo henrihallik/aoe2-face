@@ -2,14 +2,14 @@
 
 Date: 2026-08-10
 
-This report covers the `v0.1.2` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
+This report covers the `v0.1.3` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
 
 ## Artifact Hashes
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `Mirrorwake.rms` | `6bea1f4d9d39c0e49cc0a5c904cf03576b29887a2250de752477ac4649021eb2` |
-| `tools/validate-rms.mjs` | `8f10795148f1d8595a74b15587dc0695722b2ad3b10fe7a4937f5917ad56ce32` |
+| `Mirrorwake.rms` | `da44098ae75d596179875756caa72a90ada3d944f553d8d4f32b76395ec9226d` |
+| `tools/validate-rms.mjs` | `961210bd0b98434ce502613b5f0754533d8a3a64b22a93a9b1100a87bd28cc6d` |
 | `submission/layout-reference.svg` | `c4c8ddfb71be4030d897b4ce19e90a5a1662f8f99aeb6fef4a3b0df436be91fc` |
 | `submission/layout-reference.png` | `abdc7ea8ee83d9a08f3e01fe27362458687a8ca8798b9a29dbc691fb62999c44` |
 
@@ -31,6 +31,7 @@ Result: pass.
 - Hair, beard, brows, eye whites, pupils, cheeks, nose, mouth, and teeth retain their authored terrain counts.
 - The smile retains two raised corners, visible teeth, two lower side arcs, and a lowest central arc.
 - Both ear starts remain mirrored and each can receive either player color.
+- Both assigned ear lands are ID-free, preserving `set_place_for_every_player` for every repeated start object and resource group.
 - Each player receives a Town Center, 9 villagers, 2 houses, a scout, 15 gold tiles, 9 stone tiles, standard opening food, 4 shore fish, and 6 deep fish.
 - Berries and primary mines keep dedicated per-player working areas; mines remain three tiles from all trees and cannot be crowded by later emergency stragglers.
 - Berries plus primary and secondary mines use circular closest-valid placement with tile shuffling, removing the east/west candidate-order bias.
@@ -55,4 +56,4 @@ Result: pass.
 
 ## Runtime Status
 
-Runtime testing exposed a primary gold overlapping berries and unequal secondary-mine distances between the two sides. `v0.1.2` adds berry-to-mine clearance and equal circular closest-valid placement rules, and now requires a fresh multi-seed runtime pass. Test 1v1, Tiny, Standard resources with an active AI opponent under All Visible first, then repeat under Normal fog of war before submission.
+Runtime testing of `v0.1.2` exposed entire mine groups missing from one side. The assigned ear lands still carried `land_id` labels, which disable `set_place_for_every_player` in DE. `v0.1.3` removes those IDs while retaining the berry-to-mine clearance and circular closest-valid placement rules. Run a fresh multi-seed 1v1 pass under All Visible first, then repeat under Normal fog of war before submission.

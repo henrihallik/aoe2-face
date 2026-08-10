@@ -307,7 +307,7 @@ for (const [position, block] of landsByPosition) {
 }
 
 const faceBands = landsByTerrain("FACE_GROUND").filter(
-  (block) => !valueFor("land_id", block.body),
+  (block) => !/\bassign_to_player\b/.test(block.body),
 );
 assert.deepEqual(
   faceBands.map((block) => {
@@ -346,7 +346,14 @@ assert.deepEqual(
 for (const block of assignedLands) {
   assert.equal(valueFor("terrain_type", block.body), "FACE_GROUND");
   assert.deepEqual(valuesFor("assign_to_player", block.body).sort(), ["1", "2"]);
+  assert.equal(
+    valueFor("land_id", block.body),
+    undefined,
+    "land_id disables set_place_for_every_player on assigned lands in DE",
+  );
 }
+assert.equal(constants.has("LEFT_HOME_ID"), false, "player origins must not expose a land ID");
+assert.equal(constants.has("RIGHT_HOME_ID"), false, "player origins must not expose a land ID");
 
 /* Smile contract: high corners, lower side arcs, and the lowest center. */
 const smileLeft = landWithId(lands, "LEFT_SMILE_CORNER_ID");
@@ -510,6 +517,7 @@ console.log("  sections and control flow: valid");
 console.log("  portrait: 44 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
+console.log("  player origins: ID-free for reliable per-player object generation");
 console.log("  economy: 15 gold, 9 stone, 8 sheep, 2 boar, and 4 deer per player");
 console.log("  home economy: berries, mines, and trees have separate working areas");
 console.log("  mine fairness: circular closest-valid placement removes directional bias");

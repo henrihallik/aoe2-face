@@ -28,6 +28,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 ## Competitive Layout
 
 - Two horizontally mirrored player starts, independent of player color
+- ID-free player origins preserve DE's per-player generation for every start object and resource group
 - 9 villagers, one Town Center, two houses, and one scout per player
 - 8 sheep, 2 boar, 4 deer, and 6 berries per player
 - 15 gold and 9 stone per player across home, secondary, and forward bands
