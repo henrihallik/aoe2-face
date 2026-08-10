@@ -1,6 +1,6 @@
 # Mirrorwake
 
-`Mirrorwake` is an unconventional competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms an original smiling terrain portrait when viewed at full-map zoom in CaptureAge.
+`Mirrorwake` is a competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms an original face-shaped terrain portrait.
 
 Players begin at mirrored ear positions with the required 9-villager tournament start. The open face provides the direct land battlefield, while the pine hair and salt-and-pepper beard are ordinary harvestable woodlines that can become alternate attack routes. A navigable water ring supports docks and naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
 
@@ -56,7 +56,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, terrain safety, all 54 authored lands, horizontal symmetry, the recognizable head silhouette, the upturned smile and teeth geometry, player starts, all ten fixed mine clearings and bindings, food, fish, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, terrain safety, all 54 authored lands, horizontal symmetry, the recognizable head silhouette, player starts, all ten fixed mine clearings and bindings, food, fish, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 
