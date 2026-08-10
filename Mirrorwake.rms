@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.2.0
+    Mirrorwake v0.2.1
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -1323,36 +1323,50 @@ create_object RELIC {
     number_of_objects 1
     set_gaia_object_only
     place_on_specific_land_id LEFT_EYE_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on EYE_WHITE
 }
 
 create_object RELIC {
     number_of_objects 1
     set_gaia_object_only
     place_on_specific_land_id RIGHT_EYE_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on EYE_WHITE
 }
 
 create_object RELIC {
     number_of_objects 1
     set_gaia_object_only
     place_on_specific_land_id LEFT_CHEEK_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object RELIC {
     number_of_objects 1
     set_gaia_object_only
     place_on_specific_land_id RIGHT_CHEEK_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object RELIC {
     number_of_objects 1
     set_gaia_object_only
     place_on_specific_land_id NOSE_TIP_ID
-    find_closest_to_map_center
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on NOSE_GROUND
 }
 
 /* Close-camera texture on the brows and smile; these are visual only. */

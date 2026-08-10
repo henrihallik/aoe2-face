@@ -507,12 +507,25 @@ assert.match(forages[0].body, /\benable_tile_shuffling\b/, "berries must avoid d
 
 const relics = neutral.filter((block) => block.name === "RELIC");
 assert.equal(totalFor("RELIC", relics), 5, "the face requires exactly five relics");
+const relicExpectations = [
+  ["LEFT_EYE_ID", "EYE_WHITE", [37, 40]],
+  ["RIGHT_EYE_ID", "EYE_WHITE", [63, 40]],
+  ["LEFT_CHEEK_ID", "CHEEK_GROUND", [31, 52]],
+  ["RIGHT_CHEEK_ID", "CHEEK_GROUND", [69, 52]],
+  ["NOSE_TIP_ID", "NOSE_GROUND", [50, 56]],
+];
 assert.deepEqual(
   relics.map((block) => valueFor("place_on_specific_land_id", block.body)),
-  ["LEFT_EYE_ID", "RIGHT_EYE_ID", "LEFT_CHEEK_ID", "RIGHT_CHEEK_ID", "NOSE_TIP_ID"],
+  relicExpectations.map(([landId]) => landId),
   "relics must remain on the eyes, cheeks, and nose",
 );
-for (const block of relics) {
+for (const [index, block] of relics.entries()) {
+  const [landId, terrain, position] = relicExpectations[index];
+  assert.deepEqual(pairFor("land_position", landWithId(lands, landId).body), position, `${landId} position drifted`);
+  assert.equal(valueFor("avoid_other_land_zones", block.body), "0", `${landId} relic must stay inside its land`);
+  assert.equal(valueFor("terrain_to_place_on", block.body), terrain, `${landId} relic terrain drifted`);
+  assert.match(block.body, /\bfind_closest\b/, `${landId} relic must resolve from its land origin`);
+  assert.doesNotMatch(block.body, /\bfind_closest_to_map_center\b/, `${landId} relic must not escape toward map center`);
   assert.match(block.body, /\bforce_placement\b/, "every relic must be mandatory");
 }
 
@@ -528,5 +541,5 @@ console.log("  economy: 15 gold and 9 stone per side; 8 sheep, 2 boar, and 4 dee
 console.log("  mines: 10 mandatory fields confined to fixed mirrored clearings");
 console.log("  home economy: clearing terrain separates mines from random food and trees");
 console.log("  hybrid food: 4 shore fish and 6 deep fish per player");
-console.log("  objectives: 5 relics on the eyes, cheeks, and nose");
+console.log("  objectives: 5 relics confined to the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");

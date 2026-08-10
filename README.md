@@ -36,7 +36,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - Reserved clearing terrain prevents random food and trees from occupying mine tiles
 - 8 emergency stragglers plus large harvestable hair and beard forests
 - 4 shore fish and 6 deep fish per player
-- 5 fixed central relics
+- 5 fixed central relics confined to their eye, cheek, and nose landmark zones
 - No triggers, XS, custom includes, capturable buildings, scripted income, or unit/building attribute changes
 
 ## Strategic Identity

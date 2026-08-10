@@ -2,16 +2,17 @@
 
 Date: 2026-08-10
 
-This report covers the `v0.2.0` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
+This report covers the `v0.2.1` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, placement, pathing, AI behavior, runtime stability, and whether the portrait reads clearly in CaptureAge.
 
 ## Artifact Hashes
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `Mirrorwake.rms` | `a276e0d90d464a5f53dbb14c34ac1b95a7eb13b6ad32252f0f97861cd62e1862` |
-| `tools/validate-rms.mjs` | `fda00bf5df35cc4f26301a56ae725585eeec120b44d43277f132726b18a5c839` |
+| `Mirrorwake.rms` | `eaa5495ee47ba3a595eccc27acdea288131d08db7ee6af250c92febceb04a792` |
+| `tools/validate-rms.mjs` | `e41e7c732a82ae45d35de8436e95ef752d35b098693a081e223df32e0194fdef` |
 | `submission/layout-reference.svg` | `c4c8ddfb71be4030d897b4ce19e90a5a1662f8f99aeb6fef4a3b0df436be91fc` |
 | `submission/layout-reference.png` | `abdc7ea8ee83d9a08f3e01fe27362458687a8ca8798b9a29dbc691fb62999c44` |
+| `submission/screenshots/01-captureage-overview.png` | `95b55d2fc4f1146d2030aa3b24a55f0102a0f4b5f5b61f561d0f33450aec793c` |
 
 ## Passed Checks
 
@@ -36,7 +37,7 @@ Result: pass.
 - Ten independent mirrored clearings provide 15 gold and 9 stone per side across home, secondary, and forward fields.
 - Every mine block is Gaia-owned, mandatory, bound to exactly one clearing with `place_on_specific_land_id`, and confined there with `avoid_other_land_zones 0`.
 - Mine-clearing terrain is excluded from random opening food and tree placement.
-- Five relics remain fixed on the two eyes, two cheeks, and nose.
+- Five relics are confined to fixed land zones on the two eyes, two cheeks, and nose.
 - Triggers, XS, includes, attribute changes, capturable buildings, scripted income, and known hazardous terrain IDs 45 and 47 are absent.
 - An elevation section is present because the cheek and nose lands use `base_elevation`.
 
@@ -57,4 +58,6 @@ Result: pass.
 
 ## Runtime Status
 
-Runtime testing showed that `v0.1.3` could still omit a starting stone, omit central mines, or exhibit both failures in the same generation. `v0.2.0` therefore removes gold and stone from repeated per-player generation entirely. Ten mirrored neutral lands now act as authored resource slots, and each slot receives one mandatory mine block by its unique land ID. Run a fresh multi-seed 1v1 pass under All Visible first, then repeat under Normal fog of war before submission.
+Runtime testing showed that `v0.1.3` could still omit a starting stone, omit central mines, or exhibit both failures in the same generation. `v0.2.0` therefore removed gold and stone from repeated per-player generation entirely. Ten mirrored neutral lands now act as authored resource slots, and each slot receives one mandatory mine block by its unique land ID.
+
+Runtime testing then found that one `v0.2.0` relic could escape its facial landmark and appear in a player base. `v0.2.1` confines every relic to its unique landmark land with `avoid_other_land_zones 0`, restricts it to that landmark's terrain, and resolves placement from the land origin. Run a fresh multi-seed 1v1 pass under All Visible first, then repeat under Normal fog of war before submission.
