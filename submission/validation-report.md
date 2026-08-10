@@ -53,7 +53,7 @@ Result: pass.
 - `bash -n tools/package-submission.sh`: pass
 - `xmllint --noout submission/layout-reference.svg`: pass
 - Rendered diagram: 1600 x 1000 PNG, visually inspected
-- Packager gate: correctly rejects a release while the four required authentic in-game screenshots are missing
+- Packager gate: correctly accepts the stitched overview and rejects a release while the three remaining required in-game screenshots are missing
 
 ## Runtime Status
 
