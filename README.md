@@ -1,12 +1,12 @@
-# Daut
+# Mirrorwake
 
-`Daut` is an unconventional competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms a smiling portrait of DauT when viewed at full-map zoom in CaptureAge.
+`Mirrorwake` is an unconventional competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms an original smiling terrain portrait when viewed at full-map zoom in CaptureAge.
 
 Players begin at mirrored ear positions with the required 9-villager tournament start. The open face provides the direct land battlefield, while the pine hair and salt-and-pepper beard are ordinary harvestable woodlines that can become alternate attack routes. A navigable water ring supports docks and naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
 
 ## Download
 
-Download [`Daut.rms`](./Daut.rms) and place it in:
+Download [`Mirrorwake.rms`](./Mirrorwake.rms) and place it in:
 
 ```text
 %USERPROFILE%\Games\Age of Empires 2 DE\<player-id>\resources\_common\random-map-scripts\
@@ -42,7 +42,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - **Open face:** the eyes, cheeks, and nose create several direct land fronts.
 - **Choppable frame:** hair and beard provide the principal wood economy and open new late-game lanes as they are harvested.
 - **Naval ring:** both ear starts can dock, raid the opposite coast, or contest fish without making water mandatory.
-- **DauT objective:** the raised nose is the most central high ground and an obvious castle position.
+- **Central objective:** the raised nose is the most central high ground and an obvious castle position.
 - **Five-feature relic layout:** relic control pulls armies across both eyes, both cheeks, and the nose rather than stacking value in one spot.
 
 ## Validation
@@ -65,9 +65,9 @@ Static validation cannot prove Definitive Edition runtime behavior or portrait r
 - [`submission/screenshots/README.md`](submission/screenshots/README.md): required screenshot plan
 - [`submission/validation-report.md`](submission/validation-report.md): recorded static checks
 
-## Portrait Note
+## Design Note
 
-The terrain portrait is an original, deliberately simplified fan tribute based on DauT's familiar public appearance. No source photograph is included or redistributed. The map is not affiliated with or endorsed by DauT, Microsoft, World's Edge, CaptureAge, or The Garrison.
+The terrain portrait is an original, deliberately stylized design. No source photograph is included or redistributed. The map is not affiliated with or endorsed by Microsoft, World's Edge, CaptureAge, or The Garrison.
 
 ## License
 

@@ -3,9 +3,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
-RMS_SOURCE="$ROOT_DIR/Daut.rms"
-RMS_RELEASE="$DIST_DIR/Daut-Garrison-2026-v0.1.1.rms"
-ARCHIVE="$DIST_DIR/Daut-Garrison-2026-v0.1.1.zip"
+RMS_SOURCE="$ROOT_DIR/Mirrorwake.rms"
+RMS_RELEASE="$DIST_DIR/Mirrorwake-Garrison-2026-v0.1.1.rms"
+ARCHIVE="$DIST_DIR/Mirrorwake-Garrison-2026-v0.1.1.zip"
 SCREENSHOT_DIR="$ROOT_DIR/submission/screenshots"
 SCREENSHOTS=(
     "$SCREENSHOT_DIR/01-captureage-overview.png"

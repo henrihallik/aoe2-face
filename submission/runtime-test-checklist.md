@@ -4,7 +4,7 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 
 ## First Runtime Pass
 
-- [ ] Install `Daut.rms` in `resources\_common\random-map-scripts`.
+- [ ] Install `Mirrorwake.rms` in `resources\_common\random-map-scripts`.
 - [ ] Start a 1v1 skirmish on Tiny with Standard resources and All Visible.
 - [ ] Confirm both players spawn at opposite ears with a Town Center, 9 villagers, 2 houses, and 1 scout.
 - [ ] Confirm the map remains stable for at least 15 minutes with an active AI opponent.

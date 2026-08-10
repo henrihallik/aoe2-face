@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title description">
-  <title id="title">Daut competition map layout reference</title>
+  <title id="title">Mirrorwake competition map layout reference</title>
   <desc id="description">A horizontally mirrored hybrid Age of Empires II map whose central playable island forms a smiling bearded face, with player starts at the ears and water surrounding the portrait.</desc>
 
   <defs>
@@ -28,7 +28,7 @@
   </defs>
 
   <rect width="1600" height="1000" fill="#edf0ef"/>
-  <text x="70" y="52" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#202725">Daut</text>
+  <text x="70" y="52" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#202725">Mirrorwake</text>
   <text x="1530" y="52" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="16" fill="#59635f">ORIGINAL DESIGN REFERENCE · NOT AN IN-GAME SCREENSHOT</text>
 
   <rect x="58" y="78" width="844" height="844" fill="#ffffff" stroke="#c8cfcc" stroke-width="2"/>

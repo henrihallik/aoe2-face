@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const rmsPath = process.argv[2]
   ? resolve(process.cwd(), process.argv[2])
-  : resolve(here, "../Daut.rms");
+  : resolve(here, "../Mirrorwake.rms");
 const source = readFileSync(rmsPath, "utf8");
 
 function stripComments(input) {
@@ -462,7 +462,7 @@ for (const block of relics) {
 
 assert.equal(totalFor("DECORATIVE_ROCK", neutral), 18, "facial rock detail count drifted");
 
-console.log(`Daut validation passed: ${rmsPath}`);
+console.log(`Mirrorwake validation passed: ${rmsPath}`);
 console.log("  sections and control flow: valid");
 console.log("  portrait: 44 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
