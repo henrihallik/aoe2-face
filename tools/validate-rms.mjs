@@ -179,10 +179,19 @@ for (const [name, value] of [
   ["START_TREE", 349],
   ["HARBOR_FISH", 457],
   ["DECORATIVE_ROCK", 623],
+  ["LEFT_HOME_GOLD_ID", 401],
+  ["RIGHT_HOME_GOLD_ID", 402],
+  ["LEFT_HOME_STONE_ID", 411],
+  ["RIGHT_HOME_STONE_ID", 412],
+  ["LEFT_SECONDARY_GOLD_ID", 421],
+  ["RIGHT_SECONDARY_GOLD_ID", 422],
+  ["LEFT_SECONDARY_STONE_ID", 431],
+  ["RIGHT_SECONDARY_STONE_ID", 432],
+  ["LEFT_FORWARD_GOLD_ID", 441],
+  ["RIGHT_FORWARD_GOLD_ID", 442],
+  ["RESOURCE_ZONE", 30],
   ["TC_AREA", 1000],
   ["VILLAGER_AREA", 1010],
-  ["PRIMARY_GOLD_AREA", 1020],
-  ["PRIMARY_STONE_AREA", 1030],
   ["BERRIES_AREA", 1040],
 ]) {
   assert.equal(constants.get(name), value, `${name} must keep terrain/object ID ${value}`);
@@ -244,12 +253,25 @@ const lands = blocksFor("create_land", code, false);
 const landsByTerrain = (terrain) =>
   lands.filter((block) => valueFor("terrain_type", block.body) === terrain);
 
-assert.equal(lands.length, 44, "the portrait requires exactly 44 authored lands");
+const mineExpectations = new Map([
+  ["LEFT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [12, 44] }],
+  ["RIGHT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [88, 44] }],
+  ["LEFT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [21, 60] }],
+  ["RIGHT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [79, 60] }],
+  ["LEFT_SECONDARY_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [31, 58] }],
+  ["RIGHT_SECONDARY_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [69, 58] }],
+  ["LEFT_SECONDARY_STONE_ID", { object: "STONE", quantity: 4, tiles: 36, position: [38, 50] }],
+  ["RIGHT_SECONDARY_STONE_ID", { object: "STONE", quantity: 4, tiles: 36, position: [62, 50] }],
+  ["LEFT_FORWARD_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [44, 46] }],
+  ["RIGHT_FORWARD_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [56, 46] }],
+]);
+
+assert.equal(lands.length, 54, "the portrait requires exactly 54 authored lands");
 for (const [terrain, expected] of [
   ["FACE_GROUND", 12],
   ["HAIR_FOREST", 5],
   ["BEARD_FOREST", 10],
-  ["CHEEK_GROUND", 2],
+  ["CHEEK_GROUND", 12],
   ["NOSE_GROUND", 2],
   ["BROW_GROUND", 4],
   ["EYE_WHITE", 2],
@@ -266,7 +288,13 @@ for (const block of lands) {
   const key = position.join(",");
   assert.ok(!landsByPosition.has(key), `duplicate land position ${key}`);
   landsByPosition.set(key, block);
-  assert.equal(valueFor("land_percent", block.body), "100", `${key} must fill its bounds`);
+  const mine = mineExpectations.get(valueFor("land_id", block.body));
+  if (mine) {
+    assert.equal(valueFor("land_percent", block.body), undefined, `${key} must use a fixed tile count`);
+    assert.equal(valueFor("number_of_tiles", block.body), String(mine.tiles), `${key} clearing size drifted`);
+  } else {
+    assert.equal(valueFor("land_percent", block.body), "100", `${key} must fill its bounds`);
+  }
   assert.equal(valueFor("border_fuzziness", block.body), "100", `${key} must respect its bounds`);
   assert.equal(valueFor("clumping_factor", block.body), "100", `${key} must remain compact`);
   assert.equal(valueFor("other_zone_avoidance_distance", block.body), "0", `${key} may not drift`);
@@ -288,6 +316,7 @@ for (const [position, block] of landsByPosition) {
   for (const attribute of [
     "terrain_type",
     "land_percent",
+    "number_of_tiles",
     "base_size",
     "border_fuzziness",
     "clumping_factor",
@@ -406,8 +435,6 @@ for (const [name, expected] of [
   ["START_LUREABLE", 2],
   ["START_HUNTABLE", 4],
   ["FORAGE", 6],
-  ["GOLD", 15],
-  ["STONE", 9],
   ["SHORE_FISH", 4],
   ["HARBOR_FISH", 6],
 ]) {
@@ -431,73 +458,52 @@ const startTrees = perPlayer.filter((block) => block.name === "START_TREE");
 assert.equal(startTrees.length, 2, "one villager anchor and one straggler block are required");
 assert.equal(totalFor("START_TREE", perPlayer), 9, "each player requires eight stragglers plus the anchor tree");
 
-const golds = perPlayer.filter((block) => block.name === "GOLD");
-const stones = perPlayer.filter((block) => block.name === "STONE");
-assert.equal(golds.length, 3, "one primary and two expansion gold blocks are required");
-assert.equal(stones.length, 2, "one primary and one expansion stone block are required");
+assert.equal(totalFor("GOLD", perPlayer), 0, "mines must not use fallible per-player placement");
+assert.equal(totalFor("STONE", perPlayer), 0, "mines must not use fallible per-player placement");
 
-const primaryGold = golds[0];
-const primaryStone = stones[0];
+const fixedMines = neutral.filter((block) => block.name === "GOLD" || block.name === "STONE");
+assert.equal(fixedMines.length, 10, "ten independent fixed mine blocks are required");
+assert.equal(totalFor("GOLD", fixedMines), 30, "the mirrored clearings require 30 gold tiles total");
+assert.equal(totalFor("STONE", fixedMines), 18, "the mirrored clearings require 18 stone tiles total");
+
+for (const [landId, expected] of mineExpectations) {
+  const land = landWithId(lands, landId);
+  assert.deepEqual(pairFor("land_position", land.body), expected.position, `${landId} position drifted`);
+  assert.equal(valueFor("terrain_type", land.body), "CHEEK_GROUND", `${landId} must exclude food and trees`);
+  assert.equal(valueFor("number_of_tiles", land.body), String(expected.tiles), `${landId} size drifted`);
+  assert.equal(valueFor("base_size", land.body), "3", `${landId} must retain a workable clearing`);
+  assert.equal(valueFor("zone", land.body), "RESOURCE_ZONE", `${landId} must use the resource zone`);
+
+  const blocks = fixedMines.filter(
+    (block) => valueFor("place_on_specific_land_id", block.body) === landId,
+  );
+  assert.equal(blocks.length, 1, `${landId} must receive exactly one mine block`);
+  const [block] = blocks;
+  assert.equal(block.name, expected.object, `${landId} has the wrong resource`);
+  assert.equal(objectQuantity(block), expected.quantity, `${landId} quantity drifted`);
+  assert.equal(valueFor("avoid_other_land_zones", block.body), "0", `${landId} must confine its mine`);
+  assert.equal(valueFor("terrain_to_place_on", block.body), "CHEEK_GROUND", `${landId} terrain drifted`);
+  assert.equal(valueFor("set_place_for_every_player", block.body), undefined, `${landId} must remain neutral`);
+  assert.match(block.body, /\bset_gaia_object_only\b/, `${landId} must be Gaia-owned`);
+  assert.match(block.body, /\bfind_closest\b/, `${landId} must resolve from its land origin`);
+  assert.match(block.body, /\bforce_placement\b/, `${landId} must be mandatory`);
+}
+
 const stragglers = startTrees.find(
   (block) => valueFor("number_of_objects", block.body) === "8",
 );
 assert.ok(stragglers, "the eight emergency stragglers must remain identifiable");
 
-assert.equal(valueFor("avoid_forest_zone", primaryGold.body), "3");
-assert.equal(valueFor("actor_area", primaryGold.body), "PRIMARY_GOLD_AREA");
-assert.equal(valueFor("actor_area_radius", primaryGold.body), "6");
-assert.ok(
-  valuesFor("avoid_actor_area", primaryGold.body).includes("BERRIES_AREA"),
-  "primary gold must avoid the berry working area",
-);
-
-assert.equal(valueFor("avoid_forest_zone", primaryStone.body), "3");
-assert.ok(
-  valuesFor("avoid_actor_area", primaryStone.body).includes("BERRIES_AREA"),
-  "primary stone must avoid the berry working area",
-);
-assert.ok(
-  valuesFor("avoid_actor_area", primaryStone.body).includes("PRIMARY_GOLD_AREA"),
-  "primary stone must avoid the primary gold working area",
-);
-assert.equal(valueFor("actor_area", primaryStone.body), "PRIMARY_STONE_AREA");
-assert.equal(valueFor("actor_area_radius", primaryStone.body), "5");
-
-for (const area of ["BERRIES_AREA", "PRIMARY_GOLD_AREA", "PRIMARY_STONE_AREA"]) {
+for (const area of ["TC_AREA", "BERRIES_AREA"]) {
   assert.ok(
     valuesFor("avoid_actor_area", stragglers.body).includes(area),
     `emergency stragglers must avoid ${area}`,
   );
 }
 
-for (const [label, block] of [
-  ["berries", forages[0]],
-  ["primary gold", golds[0]],
-  ["secondary gold", golds[1]],
-  ["primary stone", stones[0]],
-  ["secondary stone", stones[1]],
-]) {
-  assert.match(block.body, /\bset_circular_placement\b/, `${label} must use circular distances`);
-  assert.match(block.body, /\bfind_closest\b/, `${label} must use the closest valid distance`);
-  assert.match(block.body, /\benable_tile_shuffling\b/, `${label} must avoid directional tile bias`);
-}
-
-assert.deepEqual(
-  [
-    valueFor("min_distance_to_players", golds[1].body),
-    valueFor("max_distance_to_players", golds[1].body),
-  ],
-  ["22", "31"],
-  "secondary gold distance band drifted",
-);
-assert.deepEqual(
-  [
-    valueFor("min_distance_to_players", stones[1].body),
-    valueFor("max_distance_to_players", stones[1].body),
-  ],
-  ["24", "36"],
-  "secondary stone distance band drifted",
-);
+assert.match(forages[0].body, /\bset_circular_placement\b/, "berries must use circular distances");
+assert.match(forages[0].body, /\bfind_closest\b/, "berries must use the closest valid distance");
+assert.match(forages[0].body, /\benable_tile_shuffling\b/, "berries must avoid directional tile bias");
 
 const relics = neutral.filter((block) => block.name === "RELIC");
 assert.equal(totalFor("RELIC", relics), 5, "the face requires exactly five relics");
@@ -514,13 +520,13 @@ assert.equal(totalFor("DECORATIVE_ROCK", neutral), 18, "facial rock detail count
 
 console.log(`Mirrorwake validation passed: ${rmsPath}`);
 console.log("  sections and control flow: valid");
-console.log("  portrait: 44 fixed lands with exact horizontal symmetry");
+console.log("  portrait: 54 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
 console.log("  player origins: ID-free for reliable per-player object generation");
-console.log("  economy: 15 gold, 9 stone, 8 sheep, 2 boar, and 4 deer per player");
-console.log("  home economy: berries, mines, and trees have separate working areas");
-console.log("  mine fairness: circular closest-valid placement removes directional bias");
+console.log("  economy: 15 gold and 9 stone per side; 8 sheep, 2 boar, and 4 deer per player");
+console.log("  mines: 10 mandatory fields confined to fixed mirrored clearings");
+console.log("  home economy: clearing terrain separates mines from random food and trees");
 console.log("  hybrid food: 4 shore fish and 6 deep fish per player");
 console.log("  objectives: 5 relics on the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");

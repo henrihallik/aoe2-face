@@ -28,12 +28,12 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 ## Competitive Layout
 
 - Two horizontally mirrored player starts, independent of player color
-- ID-free player origins preserve DE's per-player generation for every start object and resource group
+- ID-free player origins preserve DE's per-player generation for start units and food
 - 9 villagers, one Town Center, two houses, and one scout per player
 - 8 sheep, 2 boar, 4 deer, and 6 berries per player
-- 15 gold and 9 stone per player across home, secondary, and forward bands
-- Protected working areas keep berries, primary gold, primary stone, and nearby trees apart
-- Circular closest-valid placement gives both players the same primary and secondary mine-distance priority
+- 15 gold and 9 stone per side across home, secondary, and forward fields
+- Ten fixed mirrored mine clearings guarantee that every gold and stone field exists
+- Reserved clearing terrain prevents random food and trees from occupying mine tiles
 - 8 emergency stragglers plus large harvestable hair and beard forests
 - 4 shore fish and 6 deep fish per player
 - 5 fixed central relics
@@ -46,6 +46,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - **Naval ring:** both ear starts can dock, raid the opposite coast, or contest fish without making water mandatory.
 - **Central objective:** the raised nose is the most central high ground and an obvious castle position.
 - **Five-feature relic layout:** relic control pulls armies across both eyes, both cheeks, and the nose rather than stacking value in one spot.
+- **Known resource fronts:** mirrored fixed mine fields make expansion value predictable while their exposure still rewards map control.
 
 ## Validation
 
@@ -55,7 +56,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, terrain safety, all 44 authored lands, horizontal symmetry, the recognizable head silhouette, the upturned smile and teeth geometry, player starts, home-mine clearances, resources, fish, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, terrain safety, all 54 authored lands, horizontal symmetry, the recognizable head silhouette, the upturned smile and teeth geometry, player starts, all ten fixed mine clearings and bindings, food, fish, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 

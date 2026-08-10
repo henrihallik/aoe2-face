@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.1.3
+    Mirrorwake v0.2.0
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -21,8 +21,8 @@
     Competitive integrity:
       - Every strategic feature is horizontally mirrored.
       - Player colors swap sides independently of the fixed portrait.
-      - Berries, primary mines, and wood keep separate working areas.
-      - Home and secondary mines use equal closest-valid distance rules.
+      - Mine clearings use terrain reserved from food and trees.
+      - Ten fixed mirrored clearings guarantee every gold and stone field.
       - Assigned ear lands remain ID-free so DE repeats every player object.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
@@ -67,17 +67,28 @@
 #const CENTER_LOWER_SMILE_ID 306
 #const RIGHT_LOWER_SMILE_ID 307
 
+/* Fixed mirrored resource clearings. */
+#const LEFT_HOME_GOLD_ID 401
+#const RIGHT_HOME_GOLD_ID 402
+#const LEFT_HOME_STONE_ID 411
+#const RIGHT_HOME_STONE_ID 412
+#const LEFT_SECONDARY_GOLD_ID 421
+#const RIGHT_SECONDARY_GOLD_ID 422
+#const LEFT_SECONDARY_STONE_ID 431
+#const RIGHT_SECONDARY_STONE_ID 432
+#const LEFT_FORWARD_GOLD_ID 441
+#const RIGHT_FORWARD_GOLD_ID 442
+
 /* Land zones. */
 #const FACE_ZONE 10
 #const LEFT_HOME_ZONE 11
 #const RIGHT_HOME_ZONE 12
 #const FEATURE_ZONE 20
+#const RESOURCE_ZONE 30
 
 /* Per-player actor areas. */
 #const TC_AREA 1000
 #const VILLAGER_AREA 1010
-#const PRIMARY_GOLD_AREA 1020
-#const PRIMARY_STONE_AREA 1030
 #const BERRIES_AREA 1040
 
 /* Player color never determines the side of the portrait. */
@@ -806,6 +817,170 @@ create_land {
     land_id RIGHT_LOWER_SMILE_ID
 }
 
+/*
+    Mine clearings are neutral fixed lands rather than repeated player objects.
+    Their warm terrain excludes random food and trees while preserving the face.
+*/
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 49
+    base_size 3
+    land_position 12 44
+    left_border 8
+    right_border 84
+    top_border 40
+    bottom_border 52
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id LEFT_HOME_GOLD_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 49
+    base_size 3
+    land_position 88 44
+    left_border 84
+    right_border 8
+    top_border 40
+    bottom_border 52
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id RIGHT_HOME_GOLD_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 21 60
+    left_border 17
+    right_border 75
+    top_border 56
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id LEFT_HOME_STONE_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 79 60
+    left_border 75
+    right_border 17
+    top_border 56
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id RIGHT_HOME_STONE_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 31 58
+    left_border 27
+    right_border 65
+    top_border 54
+    bottom_border 38
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id LEFT_SECONDARY_GOLD_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 69 58
+    left_border 65
+    right_border 27
+    top_border 54
+    bottom_border 38
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id RIGHT_SECONDARY_GOLD_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 38 50
+    left_border 34
+    right_border 58
+    top_border 46
+    bottom_border 46
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id LEFT_SECONDARY_STONE_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 62 50
+    left_border 58
+    right_border 34
+    top_border 46
+    bottom_border 46
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id RIGHT_SECONDARY_STONE_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 44 46
+    left_border 40
+    right_border 52
+    top_border 42
+    bottom_border 50
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id LEFT_FORWARD_GOLD_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    number_of_tiles 36
+    base_size 3
+    land_position 56 46
+    left_border 52
+    right_border 40
+    top_border 42
+    bottom_border 50
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RESOURCE_ZONE
+    land_id RIGHT_FORWARD_GOLD_ID
+}
+
 
 <ELEVATION_GENERATION>
 
@@ -966,26 +1141,31 @@ create_object START_HUNTABLE {
     terrain_to_place_on FACE_GROUND
 }
 
-/* Primary mines reserve workable clearances; expansions retain wider bands. */
+/* Fixed home mines: identical clearings at the two ears. */
 create_object GOLD {
     number_of_objects 7
     number_of_groups 1
     group_placement_radius 3
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 9
-    max_distance_to_players 15
-    set_circular_placement
+    place_on_specific_land_id LEFT_HOME_GOLD_ID
+    avoid_other_land_zones 0
     find_closest
-    enable_tile_shuffling
     force_placement
-    terrain_to_place_on FACE_GROUND
-    avoid_actor_area TC_AREA
-    avoid_actor_area BERRIES_AREA
-    avoid_forest_zone 3
-    actor_area PRIMARY_GOLD_AREA
-    actor_area_radius 6
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object GOLD {
+    number_of_objects 7
+    number_of_groups 1
+    group_placement_radius 3
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_HOME_GOLD_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object STONE {
@@ -994,20 +1174,38 @@ create_object STONE {
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 11
-    max_distance_to_players 17
-    set_circular_placement
+    place_on_specific_land_id LEFT_HOME_STONE_ID
+    avoid_other_land_zones 0
     find_closest
-    enable_tile_shuffling
     force_placement
-    terrain_to_place_on FACE_GROUND
-    avoid_actor_area TC_AREA
-    avoid_actor_area BERRIES_AREA
-    avoid_forest_zone 3
-    avoid_actor_area PRIMARY_GOLD_AREA
-    actor_area PRIMARY_STONE_AREA
-    actor_area_radius 5
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object STONE {
+    number_of_objects 5
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_HOME_STONE_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
+}
+
+/* Fixed secondary and forward fields: mirrored neutral objectives. */
+create_object GOLD {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_SECONDARY_GOLD_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object GOLD {
@@ -1016,15 +1214,11 @@ create_object GOLD {
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 22
-    max_distance_to_players 31
-    set_circular_placement
+    place_on_specific_land_id RIGHT_SECONDARY_GOLD_ID
+    avoid_other_land_zones 0
     find_closest
-    enable_tile_shuffling
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 8
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object GOLD {
@@ -1033,13 +1227,24 @@ create_object GOLD {
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 34
-    max_distance_to_players 45
-    find_closest_to_map_center
+    place_on_specific_land_id LEFT_FORWARD_GOLD_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 10
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object GOLD {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_FORWARD_GOLD_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object STONE {
@@ -1048,15 +1253,24 @@ create_object STONE {
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 24
-    max_distance_to_players 36
-    set_circular_placement
+    place_on_specific_land_id LEFT_SECONDARY_STONE_ID
+    avoid_other_land_zones 0
     find_closest
-    enable_tile_shuffling
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 9
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object STONE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_SECONDARY_STONE_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 /* Emergency stragglers; the hair and beard provide the main wood economy. */
@@ -1070,8 +1284,6 @@ create_object START_TREE {
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
     avoid_actor_area BERRIES_AREA
-    avoid_actor_area PRIMARY_GOLD_AREA
-    avoid_actor_area PRIMARY_STONE_AREA
     temp_min_distance_group_placement 1
 }
 

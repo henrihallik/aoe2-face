@@ -27,12 +27,12 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 
 - [ ] Generate at least 20 consecutive 1v1 seeds.
 - [ ] Confirm every Town Center, villager, house, scout, food group, mine, fish group, and relic appears in every seed.
-- [ ] Compare both sides directly and confirm all three gold groups and both stone groups appear for each player.
+- [ ] Confirm all ten authored mine fields appear: three gold and two stone fields on each side.
 - [ ] Confirm each player has practical access to both a northern hair woodline and southern beard woodline.
-- [ ] Confirm berries never overlap or conceal either primary mine.
-- [ ] Confirm each primary gold and stone group has a workable three-tile clearance from all nearby trees.
+- [ ] Confirm berries and trees never occupy any of the ten warm mine clearings.
+- [ ] Confirm each home gold and stone group has open, practical mining access.
 - [ ] Confirm primary gold and stone do not touch, overlap, or obstruct each other's mining space.
-- [ ] Compare both players' secondary gold and stone distances; corresponding groups should be equivalently exposed.
+- [ ] Compare corresponding fixed mine fields on both sides; their travel distance and exposure should mirror one another.
 - [ ] Confirm neither start has a blocked Town Center exit or trapped food.
 - [ ] Confirm both ear coastlines permit a dock.
 - [ ] Confirm the water ring remains connected for ships in every seed.
