@@ -2,14 +2,14 @@
 
 Date: 2026-08-11
 
-This report covers the `v0.3.3` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, dock placement, usable building space, pathing, AI behavior, runtime stability, and whether the portrait remains readable in play.
+This report covers the `v0.3.4` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, dock placement, usable building space, pathing, AI behavior, runtime stability, and whether the portrait remains readable in play.
 
 ## Artifact Hashes
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `Mirrorwake.rms` | `94f5b5569f01a64631780a20d8a7b340701bd9b9747ac68aba15ace6f12c551e` |
-| `tools/validate-rms.mjs` | `72f2929d7b1baa15f8714dff10ce9eb970c0ec271906d9afe484ed2a030d2cf6` |
+| `Mirrorwake.rms` | `b51f02f9be15e67106bc1eb3ff2df6947a87c1e7d68123bd7b84ec05d4fc2142` |
+| `tools/validate-rms.mjs` | `6ce036ec9684cab376981ea9adef0467bc868fe3f63b16c1f6c534bf6462c7a7` |
 | `submission/layout-reference.svg` | `f9ec3a227430fa6b5eb773015f9b9c6369adc4ba5a7ce4a565ce98065dd9a757` |
 | `submission/layout-reference.png` | `8ee70d71445381a667d7fec2f3112b75b210d07537d0b28eedf979485e9d8d64` |
 | `submission/screenshots/01-captureage-overview.png` | `95b55d2fc4f1146d2030aa3b24a55f0102a0f4b5f5b61f561d0f33450aec793c` |
@@ -72,8 +72,10 @@ The first `v0.3.0` All Visible generation confirmed that the revised start and f
 
 Runtime inspection of `v0.3.1` then showed that those reinforced forests were north and south of the base rather than at its original inward-facing front, and that ten fish per side still left the large water ring too empty. Version `v0.3.2` moves the original `(22,49)` and `(78,49)` beard footprints after the clearing pass, fixes each at 180 tiles, and doubles the fish economy to twenty per side across ten locations.
 
-Runtime inspection of `v0.3.2` confirmed that the thick front forests were restored. It also showed that the deer clearing opened on the far side of the forest and that deep-water food remained sparse near each starting shoreline. Version `v0.3.3` moves each four-deer clearing to the Town Center-facing forest edge and adds four deep fish per player in two new separated upper-shore locations, for twenty-four fish across twelve locations per side.
+Runtime inspection of `v0.3.2` confirmed that the thick front forests were restored. It also showed that the deer clearing opened on the far side of the forest and that deep-water food remained sparse near each starting shoreline. Version `v0.3.3` attempted to move each four-deer clearing toward the Town Center and added four deep fish per player in two new separated upper-shore locations, for twenty-four fish across twelve locations per side.
+
+Runtime inspection of `v0.3.3` showed that the deer coordinates still resolved to the far half of the forest in the isometric view, while both new deep-fish locations sat along the remote upper water rather than visibly near the start. Version `v0.3.4` moves each deer pocket below and inward from the forest center, directly between the Town Center and the woodline. It also relocates the same four added deep fish into two narrow water bands immediately above and below each starting cove; no fish are stacked onto an existing location.
 
 ## Runtime Status
 
-Runtime validation of `v0.3.3` is pending. The next diagnostic run must use 1v1, Tiny, Standard resources, an AI opponent, and All Visible. In particular, confirm the Town Center-facing deer clearings, all twelve fish locations per side, several valid dock foundations inside both coves, and room for normal production plus at least eight farms. Then complete the 20-seed and Normal-fog passes in [`runtime-test-checklist.md`](./runtime-test-checklist.md) before replacing the screenshots or submitting the map.
+Runtime validation of `v0.3.4` is pending. The next diagnostic run must use 1v1, Tiny, Standard resources, an AI opponent, and All Visible. In particular, confirm that each deer clearing touches the base-facing forest edge, that two new deep-fish pairs visibly flank each cove, that all twelve fish locations are reachable, and that several cove tiles accept dock foundations. Then complete the 20-seed and Normal-fog passes in [`runtime-test-checklist.md`](./runtime-test-checklist.md) before replacing the screenshots or submitting the map.

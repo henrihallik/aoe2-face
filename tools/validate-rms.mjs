@@ -481,20 +481,32 @@ for (const [landId, expected] of woodExpectations) {
 
 const leftFrontWood = landWithId(lands, "LEFT_FRONT_WOOD_ID");
 const rightFrontWood = landWithId(lands, "RIGHT_FRONT_WOOD_ID");
+const leftDeer = landWithId(lands, "LEFT_DEER_ID");
+const rightDeer = landWithId(lands, "RIGHT_DEER_ID");
 assert.deepEqual(boundsFor(leftFrontWood), { left: 18, right: 26, top: 40, bottom: 58 });
 assert.deepEqual(boundsFor(rightFrontWood), { left: 74, right: 82, top: 40, bottom: 58 });
-assert.deepEqual(boundsFor(landWithId(lands, "LEFT_DEER_ID")), {
+assert.deepEqual(boundsFor(leftDeer), {
   left: 18,
   right: 22,
-  top: 45,
-  bottom: 51,
+  top: 47,
+  bottom: 53,
 });
-assert.deepEqual(boundsFor(landWithId(lands, "RIGHT_DEER_ID")), {
+assert.deepEqual(boundsFor(rightDeer), {
   left: 78,
   right: 82,
-  top: 45,
-  bottom: 51,
+  top: 47,
+  bottom: 53,
 });
+assert.ok(
+  pairFor("land_position", leftDeer.body)[0] < pairFor("land_position", leftFrontWood.body)[0] &&
+    pairFor("land_position", leftDeer.body)[1] > pairFor("land_position", leftFrontWood.body)[1],
+  "LEFT_DEER_ID must cut the Town Center-facing edge of the front forest",
+);
+assert.ok(
+  pairFor("land_position", rightDeer.body)[0] > pairFor("land_position", rightFrontWood.body)[0] &&
+    pairFor("land_position", rightDeer.body)[1] > pairFor("land_position", rightFrontWood.body)[1],
+  "RIGHT_DEER_ID must cut the Town Center-facing edge of the front forest",
+);
 for (const [homePosition, frontId, foodId] of [
   ["15,52", "LEFT_FRONT_WOOD_ID", "LEFT_NEAR_BOAR_ID"],
   ["85,52", "RIGHT_FRONT_WOOD_ID", "RIGHT_NEAR_BOAR_ID"],
@@ -725,7 +737,7 @@ const slotExpectations = new Map([
     {
       object: "START_HUNTABLE",
       quantity: 4,
-      position: [20, 48],
+      position: [19, 51],
       terrain: "CHEEK_GROUND",
       zone: "HOME_RESOURCE_ZONE",
       base: 2,
@@ -736,7 +748,7 @@ const slotExpectations = new Map([
     {
       object: "START_HUNTABLE",
       quantity: 4,
-      position: [80, 48],
+      position: [81, 51],
       terrain: "CHEEK_GROUND",
       zone: "HOME_RESOURCE_ZONE",
       base: 2,
@@ -1007,10 +1019,10 @@ const slotExpectations = new Map([
     {
       object: "HARBOR_FISH",
       quantity: 2,
-      position: [15, 33],
+      position: [4, 43],
       terrain: "SEA_WATER",
       zone: "WATER_RESOURCE_ZONE",
-      base: 2,
+      base: 1,
       groups: 2,
       groupDistance: 4,
     },
@@ -1020,10 +1032,10 @@ const slotExpectations = new Map([
     {
       object: "HARBOR_FISH",
       quantity: 2,
-      position: [85, 33],
+      position: [96, 43],
       terrain: "SEA_WATER",
       zone: "WATER_RESOURCE_ZONE",
-      base: 2,
+      base: 1,
       groups: 2,
       groupDistance: 4,
     },
@@ -1033,10 +1045,10 @@ const slotExpectations = new Map([
     {
       object: "HARBOR_FISH",
       quantity: 2,
-      position: [16, 25],
+      position: [3, 62],
       terrain: "SEA_WATER",
       zone: "WATER_RESOURCE_ZONE",
-      base: 2,
+      base: 1,
       groups: 2,
       groupDistance: 4,
     },
@@ -1046,10 +1058,10 @@ const slotExpectations = new Map([
     {
       object: "HARBOR_FISH",
       quantity: 2,
-      position: [84, 25],
+      position: [97, 62],
       terrain: "SEA_WATER",
       zone: "WATER_RESOURCE_ZONE",
-      base: 2,
+      base: 1,
       groups: 2,
       groupDistance: 4,
     },
@@ -1130,6 +1142,22 @@ for (const [index, firstId] of leftWaterIds.entries()) {
     assertDisjoint(firstId, landWithId(lands, firstId), secondId, landWithId(lands, secondId));
   }
 }
+
+const leftCoveBounds = boundsFor(landWithId(lands, "LEFT_COVE_FISH_ID"));
+const leftUpperCoveFishBounds = boundsFor(
+  landWithId(lands, "LEFT_NEAR_SHORE_DEEP_FISH_ID"),
+);
+const leftLowerCoveFishBounds = boundsFor(
+  landWithId(lands, "LEFT_NEAR_OFFSHORE_DEEP_FISH_ID"),
+);
+assert.ok(
+  leftUpperCoveFishBounds.bottom < leftCoveBounds.top,
+  "the upper deep-fish pair must remain immediately above the home cove",
+);
+assert.ok(
+  leftLowerCoveFishBounds.top > leftCoveBounds.bottom,
+  "the lower deep-fish pair must remain immediately below the home cove",
+);
 
 for (const [name, expected] of [
   ["START_HERDABLE", 16],

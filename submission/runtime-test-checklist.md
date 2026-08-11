@@ -14,6 +14,7 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 - [ ] Verify land units cannot cross the surrounding water without transport.
 - [ ] Build a dock on at least three shoreline tiles inside each ear cove.
 - [ ] Train fishing ships from both docks and confirm they can reach all twelve fish locations on their side.
+- [ ] Confirm two separated deep-fish pairs visibly flank each starting cove, one above it and one below it.
 - [ ] Circulate ships around the complete face to confirm the water ring is connected.
 
 ## Portrait Pass
