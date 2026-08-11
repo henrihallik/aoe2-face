@@ -2,7 +2,7 @@
 
 The competition asks for a few screenshots. The layout reference is not a substitute for these.
 
-The existing `01-captureage-overview.png` shows the obsolete `v0.2.1` layout. Replace it, and capture the other three images, only after `v0.3.0` passes the complete runtime checklist. Do not submit screenshots from different map versions.
+The existing `01-captureage-overview.png` shows the obsolete `v0.2.1` layout. Replace it, and capture the other three images, only after `v0.3.1` passes the complete runtime checklist. Do not submit screenshots from different map versions.
 
 1. `01-captureage-overview.png`: complete map stitched from UI-free AoE2 DE views, with the smiling face immediately readable.
 2. `02-smile-and-nose.png`: closer view showing raised cheeks, nose ridge, moustache, white teeth, and the upturned lower mouth.

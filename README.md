@@ -34,9 +34,9 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - 8 sheep, 2 boar, 4 deer, and 6 berries per side in fixed mirrored glades
 - 15 gold and 9 stone per side across home, secondary, and forward fields
 - Ten fixed mirrored mine clearings guarantee that every gold and stone field exists
-- Two guaranteed 8 x 8 home woodlines per side, plus 8 emergency stragglers and the portrait forests
+- Two guaranteed 64-tile home forest woodlines per side, plus 8 emergency stragglers and the portrait forests
 - Dockable water terrain 1 and a broad cove beside each ear start
-- 4 shore fish and 6 deep fish per side in fixed water slots
+- 4 shore fish and 6 deep fish per side, split across 5 fixed water slots
 - 5 fixed central relics confined to their eye, cheek, and nose landmark zones
 - No triggers, XS, custom includes, capturable buildings, scripted income, or unit/building attribute changes
 
@@ -57,7 +57,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, dockable water, all 76 authored lands, horizontal symmetry, the recognizable head silhouette, protected home space, fixed woodlines, every food/fish/mine slot and binding, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, dockable water, all 82 authored lands, horizontal symmetry, the recognizable head silhouette, protected home space, fixed 64-tile woodlines, every food/fish/mine slot and binding, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 
