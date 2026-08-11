@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.3.1
+    Mirrorwake v0.3.2
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -24,8 +24,8 @@
       - Player colors swap sides independently of the fixed portrait.
       - Mine clearings use terrain reserved from food and trees.
       - Fixed mirrored slots guarantee food, fish, gold, and stone.
-      - Protected ear plateaus guarantee building room and two fixed 64-tile
-        home forest woodlines.
+      - Protected ear plateaus retain building room behind a fixed 180-tile
+        front forest and two additional 64-tile home woodlines.
       - Assigned ear lands remain ID-free so DE repeats every player object.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
@@ -100,8 +100,10 @@
 #const RIGHT_NORTH_WOOD_ID 534
 #const LEFT_SOUTH_WOOD_ID 535
 #const RIGHT_SOUTH_WOOD_ID 536
+#const LEFT_FRONT_WOOD_ID 537
+#const RIGHT_FRONT_WOOD_ID 538
 
-/* Five fixed fish slots per side. */
+/* Ten fixed fish slots per side. */
 #const LEFT_COVE_FISH_ID 541
 #const RIGHT_COVE_FISH_ID 542
 #const LEFT_UPPER_SHORE_FISH_ID 551
@@ -112,6 +114,16 @@
 #const RIGHT_LOWER_DEEP_FISH_ID 556
 #const LEFT_BOTTOM_DEEP_FISH_ID 557
 #const RIGHT_BOTTOM_DEEP_FISH_ID 558
+#const LEFT_LOWER_SHORE_FISH_ID 559
+#const RIGHT_LOWER_SHORE_FISH_ID 560
+#const LEFT_TOP_DEEP_FISH_ID 561
+#const RIGHT_TOP_DEEP_FISH_ID 562
+#const LEFT_UPPER_OUTER_DEEP_FISH_ID 563
+#const RIGHT_UPPER_OUTER_DEEP_FISH_ID 564
+#const LEFT_LOWER_OUTER_DEEP_FISH_ID 565
+#const RIGHT_LOWER_OUTER_DEEP_FISH_ID 566
+#const LEFT_BOTTOM_EDGE_DEEP_FISH_ID 567
+#const RIGHT_BOTTOM_EDGE_DEEP_FISH_ID 568
 
 /* Land zones. */
 #const FACE_ZONE 10
@@ -422,36 +434,6 @@ create_land {
 }
 
 /* Salt-and-pepper beard bands are large, ordinary harvestable woodlines. */
-create_land {
-    terrain_type BEARD_FOREST
-    land_percent 100
-    base_size 2
-    land_position 22 49
-    left_border 18
-    right_border 74
-    top_border 40
-    bottom_border 42
-    border_fuzziness 100
-    clumping_factor 100
-    other_zone_avoidance_distance 0
-    zone FEATURE_ZONE
-}
-
-create_land {
-    terrain_type BEARD_FOREST
-    land_percent 100
-    base_size 2
-    land_position 78 49
-    left_border 74
-    right_border 18
-    top_border 40
-    bottom_border 42
-    border_fuzziness 100
-    clumping_factor 100
-    other_zone_avoidance_distance 0
-    zone FEATURE_ZONE
-}
-
 create_land {
     terrain_type BEARD_FOREST
     land_percent 100
@@ -886,6 +868,42 @@ create_land {
     zone RIGHT_HOME_ZONE
 }
 
+/*
+    Restore the original inward-facing beard forests after the home-clearance
+    pass. Later food glades cut accessible pockets into these dense woodlines.
+*/
+create_land {
+    terrain_type BEARD_FOREST
+    number_of_tiles 180
+    base_size 4
+    land_position 22 49
+    left_border 18
+    right_border 74
+    top_border 40
+    bottom_border 42
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id LEFT_FRONT_WOOD_ID
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    number_of_tiles 180
+    base_size 4
+    land_position 78 49
+    left_border 74
+    right_border 18
+    top_border 40
+    bottom_border 42
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+    land_id RIGHT_FRONT_WOOD_ID
+}
+
 /* Two compact, guaranteed woodlines frame every home plateau. */
 create_land {
     terrain_type HAIR_FOREST
@@ -1307,6 +1325,166 @@ create_land {
     other_zone_avoidance_distance 0
     zone WATER_RESOURCE_ZONE
     land_id RIGHT_BOTTOM_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 7 70
+    left_border 4
+    right_border 90
+    top_border 67
+    bottom_border 27
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_LOWER_SHORE_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 93 70
+    left_border 90
+    right_border 4
+    top_border 67
+    bottom_border 27
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_LOWER_SHORE_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 35 5
+    left_border 32
+    right_border 62
+    top_border 2
+    bottom_border 92
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_TOP_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 65 5
+    left_border 62
+    right_border 32
+    top_border 2
+    bottom_border 92
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_TOP_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 12 16
+    left_border 9
+    right_border 85
+    top_border 13
+    bottom_border 81
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_UPPER_OUTER_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 88 16
+    left_border 85
+    right_border 9
+    top_border 13
+    bottom_border 81
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_UPPER_OUTER_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 16 88
+    left_border 13
+    right_border 81
+    top_border 85
+    bottom_border 9
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_LOWER_OUTER_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 84 88
+    left_border 81
+    right_border 13
+    top_border 85
+    bottom_border 9
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_LOWER_OUTER_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 35 94
+    left_border 32
+    right_border 62
+    top_border 91
+    bottom_border 3
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_BOTTOM_EDGE_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 2
+    land_position 65 94
+    left_border 62
+    right_border 32
+    top_border 91
+    bottom_border 3
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_BOTTOM_EDGE_DEEP_FISH_ID
 }
 
 /*
@@ -1832,7 +2010,7 @@ create_object START_TREE {
     temp_min_distance_group_placement 1
 }
 
-/* Ten small mirrored schools replace four visually cluttered fish piles. */
+/* Twenty small mirrored locations replace four visually cluttered fish piles. */
 create_object SHORE_FISH {
     number_of_objects 1
     number_of_groups 2
@@ -1966,6 +2144,146 @@ create_object HARBOR_FISH {
     set_loose_grouping
     set_gaia_object_only
     place_on_specific_land_id RIGHT_BOTTOM_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object SHORE_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_LOWER_SHORE_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object SHORE_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_LOWER_SHORE_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_TOP_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_TOP_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_UPPER_OUTER_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_UPPER_OUTER_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_LOWER_OUTER_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_LOWER_OUTER_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_BOTTOM_EDGE_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 4
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 1
+    number_of_groups 2
+    group_placement_radius 1
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_BOTTOM_EDGE_DEEP_FISH_ID
     avoid_other_land_zones 0
     find_closest
     force_placement

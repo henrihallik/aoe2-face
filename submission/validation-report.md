@@ -2,16 +2,16 @@
 
 Date: 2026-08-11
 
-This report covers the `v0.3.1` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, dock placement, usable building space, pathing, AI behavior, runtime stability, and whether the portrait remains readable in play.
+This report covers the `v0.3.2` runtime-test candidate. Static checks validate the source contract, but only Age of Empires II: Definitive Edition can prove generation, dock placement, usable building space, pathing, AI behavior, runtime stability, and whether the portrait remains readable in play.
 
 ## Artifact Hashes
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `Mirrorwake.rms` | `b69eec8b236fa83b2494021d6313c288454f7365c2a0816d481a3f1fd04544a1` |
-| `tools/validate-rms.mjs` | `83ff2dd258e4063680dc40e0cd72a382eedae5dd115f62fad1cc86536e9e4173` |
-| `submission/layout-reference.svg` | `c4c8ddfb71be4030d897b4ce19e90a5a1662f8f99aeb6fef4a3b0df436be91fc` |
-| `submission/layout-reference.png` | `abdc7ea8ee83d9a08f3e01fe27362458687a8ca8798b9a29dbc691fb62999c44` |
+| `Mirrorwake.rms` | `cf6e684be1938404164f7051c59fe39d0ee0cc4e8a7f3800ea242da846645614` |
+| `tools/validate-rms.mjs` | `a7f08b90424277fab657c0add4901639fd3e9ae249f68758b256623b8e48e52e` |
+| `submission/layout-reference.svg` | `18f65250e18f266f4fa70fe4d64d1e3f00b8a20307303729249b0edbac69955e` |
+| `submission/layout-reference.png` | `77c7ee041799eaae20f96af7de7a2c108141a886b5cd9751a234be1a5518c139` |
 | `submission/screenshots/01-captureage-overview.png` | `95b55d2fc4f1146d2030aa3b24a55f0102a0f4b5f5b61f561d0f33450aec793c` |
 
 The existing overview screenshot records the obsolete `v0.2.1` layout. It is not valid submission evidence for this candidate and must be replaced after runtime approval.
@@ -29,20 +29,21 @@ node tools/validate-rms.mjs
 Result: pass.
 
 - Sections, braces, comments, and conditional control flow are valid.
-- All 82 authored lands have fixed positions and exact horizontal mirrors.
+- All 92 authored lands have fixed positions and exact horizontal mirrors.
 - Ten face bands retain the intended head, jaw, and chin silhouette.
 - Hair, beard, brows, eye whites, pupils, cheeks, nose, mouth, and teeth retain their authored terrain counts.
 - The smile retains two raised corners, visible teeth, two lower side arcs, and a lowest central arc.
 - Both assigned ear origins remain ID-free, mirrored, and expanded to reserve starting space.
 - Each player receives a Town Center, 9 villagers, 2 houses, a scout, and 8 emergency stragglers.
-- Four fixed 64-tile forest lands provide a northern and southern home woodline on each side.
-- Twenty-two fixed food and fish lands provide exactly 8 sheep, 2 boar, 4 deer, 6 berries, 4 shore fish, and 6 deep fish per side.
+- Two ordered 180-tile front forests restore the original inward-facing wood mass after the home-clearance pass.
+- Four additional fixed 64-tile forest lands provide a northern and southern outer woodline on each side.
+- Thirty-two fixed food and fish lands provide exactly 8 sheep, 2 boar, 4 deer, 6 berries, 6 shore fish, and 14 deep fish per side.
 - Every food and fish block is Gaia-owned, mandatory, bound to one fixed land ID, restricted to the intended terrain, and confined with `avoid_other_land_zones 0`.
-- Fish are divided into five locations per side; every location contains two individually separated fish.
+- Fish are divided into ten non-overlapping locations per side; every location contains two individually separated fish.
 - Opening food, mine, home-woodline, and cove bounds are pairwise separated wherever placement collisions would affect the opening economy.
 - Ten fixed mine clearings provide 15 gold and 9 stone per side.
 - Every mine block is Gaia-owned, mandatory, bound to exactly one clearing, and confined there.
-- The complete water ring and ten fish lands use terrain ID 1; no non-dockable depth-texture pass remains.
+- The complete water ring and twenty fish lands use terrain ID 1; no non-dockable depth-texture pass remains.
 - Five relics are confined to fixed landmark lands on the two eyes, two cheeks, and nose.
 - Triggers, XS, includes, attribute changes, capturable buildings, scripted income, and known hazardous terrain IDs 45 and 47 are absent.
 - An elevation section is present because the cheek and nose lands use `base_elevation`.
@@ -69,6 +70,8 @@ Version `v0.3.0` replaces the entire sea with terrain 1, cuts a broad water cove
 
 The first `v0.3.0` All Visible generation confirmed that the revised start and fish objects appeared, but its home forest lands remained too sparse and the fish were visually compressed into four piles. Version `v0.3.1` changes every home woodline to an exact 64-tile forest and redistributes the unchanged fish total across ten mirrored locations, with two separated fish per location.
 
+Runtime inspection of `v0.3.1` then showed that those reinforced forests were north and south of the base rather than at its original inward-facing front, and that ten fish per side still left the large water ring too empty. Version `v0.3.2` moves the original `(22,49)` and `(78,49)` beard footprints after the clearing pass, fixes each at 180 tiles, and doubles the fish economy to twenty per side across ten locations.
+
 ## Runtime Status
 
-Runtime validation of `v0.3.1` is pending. The next diagnostic run must use 1v1, Tiny, Standard resources, an AI opponent, and All Visible. In particular, confirm both dense home woodlines, five fish locations per side, several valid dock foundations inside both coves, and room for normal production plus at least eight farms. Then complete the 20-seed and Normal-fog passes in [`runtime-test-checklist.md`](./runtime-test-checklist.md) before replacing the screenshots or submitting the map.
+Runtime validation of `v0.3.2` is pending. The next diagnostic run must use 1v1, Tiny, Standard resources, an AI opponent, and All Visible. In particular, confirm the thick front forests, all ten fish locations per side, several valid dock foundations inside both coves, and room for normal production plus at least eight farms. Then complete the 20-seed and Normal-fog passes in [`runtime-test-checklist.md`](./runtime-test-checklist.md) before replacing the screenshots or submitting the map.

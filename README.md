@@ -2,7 +2,7 @@
 
 `Mirrorwake` is a competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms an original face-shaped terrain portrait.
 
-Players begin on large mirrored ear plateaus with the required 9-villager tournament start. Every opening food group, mine, woodline, and fish school has a fixed mirrored slot. The open face provides the direct land battlefield, while the pine hair and salt-and-pepper beard remain ordinary harvestable woodlines and choppable attack routes. A dockable water ring with carved home coves supports reliable naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
+Players begin on large mirrored ear plateaus with the required 9-villager tournament start. Every opening food group, mine, woodline, and fish school has a fixed mirrored slot. A dense inward-facing forest restores the original front wood mass, while two additional home woodlines and the broader pine hair and salt-and-pepper beard provide choppable attack routes. A dockable water ring with carved home coves supports reliable naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
 
 ## Download
 
@@ -34,9 +34,9 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 - 8 sheep, 2 boar, 4 deer, and 6 berries per side in fixed mirrored glades
 - 15 gold and 9 stone per side across home, secondary, and forward fields
 - Ten fixed mirrored mine clearings guarantee that every gold and stone field exists
-- Two guaranteed 64-tile home forest woodlines per side, plus 8 emergency stragglers and the portrait forests
+- One guaranteed 180-tile front forest and two 64-tile home woodlines per side, plus 8 emergency stragglers
 - Dockable water terrain 1 and a broad cove beside each ear start
-- 4 shore fish and 6 deep fish per side, split across 5 fixed water slots
+- 6 shore fish and 14 deep fish per side, split across 10 fixed water slots
 - 5 fixed central relics confined to their eye, cheek, and nose landmark zones
 - No triggers, XS, custom includes, capturable buildings, scripted income, or unit/building attribute changes
 
@@ -57,7 +57,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, dockable water, all 82 authored lands, horizontal symmetry, the recognizable head silhouette, protected home space, fixed 64-tile woodlines, every food/fish/mine slot and binding, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, dockable water, all 92 authored lands, horizontal symmetry, the recognizable head silhouette, protected home space, the ordered 180-tile front forests, fixed 64-tile outer woodlines, every food/fish/mine slot and binding, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 
