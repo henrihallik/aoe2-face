@@ -13,7 +13,7 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 - [ ] Move units from both ears across each eye, both cheeks, the nose, teeth, mouth, and chin.
 - [ ] Verify land units cannot cross the surrounding water without transport.
 - [ ] Build a dock on at least three shoreline tiles inside each ear cove.
-- [ ] Train fishing ships from both docks and confirm they can reach all ten fish locations on their side.
+- [ ] Train fishing ships from both docks and confirm they can reach all twelve fish locations on their side.
 - [ ] Circulate ships around the complete face to confirm the water ring is connected.
 
 ## Portrait Pass
@@ -32,10 +32,11 @@ Static validators cannot reproduce the Definitive Edition map generator. Complet
 - [ ] Generate at least 20 consecutive 1v1 seeds.
 - [ ] Confirm every Town Center, villager, house, scout, food group, mine, fish group, and relic appears in every seed.
 - [ ] Confirm each side always has exactly 8 sheep, 2 boar, 4 deer, and 6 berry bushes in usable groups.
-- [ ] Confirm each side always has 6 shore fish across 3 locations and 14 deep fish across 7 locations.
+- [ ] Confirm each side always has 6 shore fish across 3 locations and 18 deep fish across 9 locations.
 - [ ] Confirm no fixed water location contains more than 2 fish and that the two fish do not visually overlap.
 - [ ] Confirm all ten authored mine fields appear: three gold and two stone fields on each side.
 - [ ] Confirm each start has a thick inward-facing 180-tile forest between its Town Center and map center.
+- [ ] Confirm each four-deer clearing opens onto the Town Center-facing edge of that forest and is reachable without chopping.
 - [ ] Confirm each start also has a dense 64-tile northern hair woodline and dense 64-tile southern beard woodline.
 - [ ] Confirm villagers can build lumber camps and work both home woodlines without blocked approach tiles.
 - [ ] Confirm berries and trees never occupy any of the ten warm mine clearings.

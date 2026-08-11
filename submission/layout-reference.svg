@@ -123,7 +123,7 @@
     <text x="964" y="570" font-size="22" font-weight="700" fill="#202725">Tournament start</text>
     <text x="964" y="606" font-size="18" fill="#303936">9 villagers · Town Center · 2 houses · scout</text>
     <text x="964" y="640" font-size="18" fill="#303936">15 gold · 9 stone · standard opening food</text>
-    <text x="964" y="674" font-size="18" fill="#303936">6 shore fish + 14 deep fish per player</text>
+    <text x="964" y="674" font-size="18" fill="#303936">6 shore fish + 18 deep fish per player</text>
 
     <line x1="964" y1="710" x2="1524" y2="710" stroke="#cbd1ce" stroke-width="2"/>
 

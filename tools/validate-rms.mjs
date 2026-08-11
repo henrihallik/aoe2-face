@@ -244,6 +244,10 @@ for (const [name, value] of [
   ["RIGHT_LOWER_OUTER_DEEP_FISH_ID", 566],
   ["LEFT_BOTTOM_EDGE_DEEP_FISH_ID", 567],
   ["RIGHT_BOTTOM_EDGE_DEEP_FISH_ID", 568],
+  ["LEFT_NEAR_SHORE_DEEP_FISH_ID", 569],
+  ["RIGHT_NEAR_SHORE_DEEP_FISH_ID", 570],
+  ["LEFT_NEAR_OFFSHORE_DEEP_FISH_ID", 571],
+  ["RIGHT_NEAR_OFFSHORE_DEEP_FISH_ID", 572],
   ["RESOURCE_ZONE", 30],
   ["HOME_RESOURCE_ZONE", 31],
   ["WATER_RESOURCE_ZONE", 32],
@@ -330,7 +334,7 @@ const woodExpectations = new Map([
   ["RIGHT_FRONT_WOOD_ID", { terrain: "BEARD_FOREST", position: [78, 49], tiles: 180, base: 4 }],
 ]);
 
-assert.equal(lands.length, 92, "the playable portrait requires exactly 92 authored lands");
+assert.equal(lands.length, 96, "the playable portrait requires exactly 96 authored lands");
 for (const [terrain, expected] of [
   ["FACE_GROUND", 14],
   ["HAIR_FOREST", 7],
@@ -341,7 +345,7 @@ for (const [terrain, expected] of [
   ["EYE_WHITE", 2],
   ["MOUTH_GROUND", 6],
   ["TEETH_WHITE", 1],
-  ["SEA_WATER", 20],
+  ["SEA_WATER", 24],
 ]) {
   assert.equal(landsByTerrain(terrain).length, expected, `${terrain} land count drifted`);
 }
@@ -479,6 +483,18 @@ const leftFrontWood = landWithId(lands, "LEFT_FRONT_WOOD_ID");
 const rightFrontWood = landWithId(lands, "RIGHT_FRONT_WOOD_ID");
 assert.deepEqual(boundsFor(leftFrontWood), { left: 18, right: 26, top: 40, bottom: 58 });
 assert.deepEqual(boundsFor(rightFrontWood), { left: 74, right: 82, top: 40, bottom: 58 });
+assert.deepEqual(boundsFor(landWithId(lands, "LEFT_DEER_ID")), {
+  left: 18,
+  right: 22,
+  top: 45,
+  bottom: 51,
+});
+assert.deepEqual(boundsFor(landWithId(lands, "RIGHT_DEER_ID")), {
+  left: 78,
+  right: 82,
+  top: 45,
+  bottom: 51,
+});
 for (const [homePosition, frontId, foodId] of [
   ["15,52", "LEFT_FRONT_WOOD_ID", "LEFT_NEAR_BOAR_ID"],
   ["85,52", "RIGHT_FRONT_WOOD_ID", "RIGHT_NEAR_BOAR_ID"],
@@ -709,7 +725,7 @@ const slotExpectations = new Map([
     {
       object: "START_HUNTABLE",
       quantity: 4,
-      position: [23, 49],
+      position: [20, 48],
       terrain: "CHEEK_GROUND",
       zone: "HOME_RESOURCE_ZONE",
       base: 2,
@@ -720,7 +736,7 @@ const slotExpectations = new Map([
     {
       object: "START_HUNTABLE",
       quantity: 4,
-      position: [77, 49],
+      position: [80, 48],
       terrain: "CHEEK_GROUND",
       zone: "HOME_RESOURCE_ZONE",
       base: 2,
@@ -986,6 +1002,58 @@ const slotExpectations = new Map([
       groupDistance: 4,
     },
   ],
+  [
+    "LEFT_NEAR_SHORE_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 2,
+      position: [15, 33],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 2,
+      groups: 2,
+      groupDistance: 4,
+    },
+  ],
+  [
+    "RIGHT_NEAR_SHORE_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 2,
+      position: [85, 33],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 2,
+      groups: 2,
+      groupDistance: 4,
+    },
+  ],
+  [
+    "LEFT_NEAR_OFFSHORE_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 2,
+      position: [16, 25],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 2,
+      groups: 2,
+      groupDistance: 4,
+    },
+  ],
+  [
+    "RIGHT_NEAR_OFFSHORE_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 2,
+      position: [84, 25],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 2,
+      groups: 2,
+      groupDistance: 4,
+    },
+  ],
 ]);
 
 const leftOpeningFoodIds = [
@@ -1012,6 +1080,8 @@ const leftWaterIds = [
   "LEFT_UPPER_OUTER_DEEP_FISH_ID",
   "LEFT_LOWER_OUTER_DEEP_FISH_ID",
   "LEFT_BOTTOM_EDGE_DEEP_FISH_ID",
+  "LEFT_NEAR_SHORE_DEEP_FISH_ID",
+  "LEFT_NEAR_OFFSHORE_DEEP_FISH_ID",
 ];
 
 function assertDisjoint(firstName, firstLand, secondName, secondLand) {
@@ -1067,7 +1137,7 @@ for (const [name, expected] of [
   ["START_HUNTABLE", 8],
   ["FORAGE", 12],
   ["SHORE_FISH", 12],
-  ["HARBOR_FISH", 28],
+  ["HARBOR_FISH", 36],
 ]) {
   assert.equal(totalFor(name, neutral), expected, `${name} fixed map total must be ${expected}`);
 }
@@ -1151,7 +1221,7 @@ assert.equal(totalFor("DECORATIVE_ROCK", neutral), 18, "facial rock detail count
 
 console.log(`Mirrorwake validation passed: ${rmsPath}`);
 console.log("  sections and control flow: valid");
-console.log("  portrait: 92 fixed lands with exact horizontal symmetry");
+console.log("  portrait: 96 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
 console.log("  player origins: ID-free for reliable per-player object generation");
@@ -1159,6 +1229,6 @@ console.log("  home wood: one 180-tile front forest plus two 64-tile woodlines p
 console.log("  land food: fixed slots provide 8 sheep, 2 boar, 4 deer, and 6 berries per side");
 console.log("  footprints: food, mines, outer woodlines, and all fish slots stay distinct");
 console.log("  mines: 10 mandatory fields confined to fixed mirrored clearings");
-console.log("  water: dockable terrain 1 with 20 fish per side across 10 locations");
+console.log("  water: dockable terrain 1 with 24 fish per side across 12 locations");
 console.log("  objectives: 5 relics confined to the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");
