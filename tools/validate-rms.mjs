@@ -81,6 +81,24 @@ function pairFor(attribute, text) {
   return match ? [Number(match[1]), Number(match[2])] : undefined;
 }
 
+function boundsFor(block) {
+  return {
+    left: Number(valueFor("left_border", block.body)),
+    right: 100 - Number(valueFor("right_border", block.body)),
+    top: Number(valueFor("top_border", block.body)),
+    bottom: 100 - Number(valueFor("bottom_border", block.body)),
+  };
+}
+
+function boundsOverlap(first, second) {
+  return (
+    first.left <= second.right &&
+    second.left <= first.right &&
+    first.top <= second.bottom &&
+    second.top <= first.bottom
+  );
+}
+
 function objectQuantity(block) {
   return (
     Number(valueFor("number_of_objects", block.body) ?? 1) *
@@ -165,8 +183,7 @@ for (const [name, value] of [
   ["FACE_GROUND", 14],
   ["CHEEK_GROUND", 41],
   ["NOSE_GROUND", 42],
-  ["SEA_WATER", 23],
-  ["SEA_DEEP", 22],
+  ["SEA_WATER", 1],
   ["HAIR_FOREST", 19],
   ["BEARD_FOREST", 106],
   ["BROW_GROUND", 40],
@@ -189,10 +206,27 @@ for (const [name, value] of [
   ["RIGHT_SECONDARY_STONE_ID", 432],
   ["LEFT_FORWARD_GOLD_ID", 441],
   ["RIGHT_FORWARD_GOLD_ID", 442],
+  ["LEFT_NEAR_SHEEP_ID", 501],
+  ["RIGHT_NEAR_SHEEP_ID", 502],
+  ["LEFT_FAR_SHEEP_ID", 503],
+  ["RIGHT_FAR_SHEEP_ID", 504],
+  ["LEFT_BERRIES_ID", 511],
+  ["RIGHT_BERRIES_ID", 512],
+  ["LEFT_NEAR_BOAR_ID", 521],
+  ["RIGHT_NEAR_BOAR_ID", 522],
+  ["LEFT_FAR_BOAR_ID", 523],
+  ["RIGHT_FAR_BOAR_ID", 524],
+  ["LEFT_DEER_ID", 531],
+  ["RIGHT_DEER_ID", 532],
+  ["LEFT_SHORE_FISH_ID", 541],
+  ["RIGHT_SHORE_FISH_ID", 542],
+  ["LEFT_DEEP_FISH_ID", 551],
+  ["RIGHT_DEEP_FISH_ID", 552],
   ["RESOURCE_ZONE", 30],
+  ["HOME_RESOURCE_ZONE", 31],
+  ["WATER_RESOURCE_ZONE", 32],
   ["TC_AREA", 1000],
   ["VILLAGER_AREA", 1010],
-  ["BERRIES_AREA", 1040],
 ]) {
   assert.equal(constants.get(name), value, `${name} must keep terrain/object ID ${value}`);
 }
@@ -220,7 +254,6 @@ const terrainValues = [
   "CHEEK_GROUND",
   "NOSE_GROUND",
   "SEA_WATER",
-  "SEA_DEEP",
   "HAIR_FOREST",
   "BEARD_FOREST",
   "BROW_GROUND",
@@ -254,10 +287,10 @@ const landsByTerrain = (terrain) =>
   lands.filter((block) => valueFor("terrain_type", block.body) === terrain);
 
 const mineExpectations = new Map([
-  ["LEFT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [12, 44] }],
-  ["RIGHT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [88, 44] }],
-  ["LEFT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [21, 60] }],
-  ["RIGHT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [79, 60] }],
+  ["LEFT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [9, 41] }],
+  ["RIGHT_HOME_GOLD_ID", { object: "GOLD", quantity: 7, tiles: 49, position: [91, 41] }],
+  ["LEFT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [15, 66] }],
+  ["RIGHT_HOME_STONE_ID", { object: "STONE", quantity: 5, tiles: 36, position: [85, 66] }],
   ["LEFT_SECONDARY_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [31, 58] }],
   ["RIGHT_SECONDARY_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [69, 58] }],
   ["LEFT_SECONDARY_STONE_ID", { object: "STONE", quantity: 4, tiles: 36, position: [38, 50] }],
@@ -266,17 +299,18 @@ const mineExpectations = new Map([
   ["RIGHT_FORWARD_GOLD_ID", { object: "GOLD", quantity: 4, tiles: 36, position: [56, 46] }],
 ]);
 
-assert.equal(lands.length, 54, "the portrait requires exactly 54 authored lands");
+assert.equal(lands.length, 76, "the playable portrait requires exactly 76 authored lands");
 for (const [terrain, expected] of [
-  ["FACE_GROUND", 12],
-  ["HAIR_FOREST", 5],
-  ["BEARD_FOREST", 10],
-  ["CHEEK_GROUND", 12],
+  ["FACE_GROUND", 14],
+  ["HAIR_FOREST", 7],
+  ["BEARD_FOREST", 12],
+  ["CHEEK_GROUND", 24],
   ["NOSE_GROUND", 2],
   ["BROW_GROUND", 4],
   ["EYE_WHITE", 2],
   ["MOUTH_GROUND", 6],
   ["TEETH_WHITE", 1],
+  ["SEA_WATER", 4],
 ]) {
   assert.equal(landsByTerrain(terrain).length, expected, `${terrain} land count drifted`);
 }
@@ -336,7 +370,7 @@ for (const [position, block] of landsByPosition) {
 }
 
 const faceBands = landsByTerrain("FACE_GROUND").filter(
-  (block) => !/\bassign_to_player\b/.test(block.body),
+  (block) => valueFor("zone", block.body) === "FACE_ZONE",
 );
 assert.deepEqual(
   faceBands.map((block) => {
@@ -374,6 +408,7 @@ assert.deepEqual(
 );
 for (const block of assignedLands) {
   assert.equal(valueFor("terrain_type", block.body), "FACE_GROUND");
+  assert.equal(valueFor("base_size", block.body), "9", "ear origins require expanded build space");
   assert.deepEqual(valuesFor("assign_to_player", block.body).sort(), ["1", "2"]);
   assert.equal(
     valueFor("land_id", block.body),
@@ -383,6 +418,31 @@ for (const block of assignedLands) {
 }
 assert.equal(constants.has("LEFT_HOME_ID"), false, "player origins must not expose a land ID");
 assert.equal(constants.has("RIGHT_HOME_ID"), false, "player origins must not expose a land ID");
+
+for (const [position, zone] of [
+  [[15, 52], "LEFT_HOME_ZONE"],
+  [[85, 52], "RIGHT_HOME_ZONE"],
+]) {
+  const block = landsByPosition.get(position.join(","));
+  assert.ok(block, `home clearing ${position.join(",")} is missing`);
+  assert.equal(valueFor("terrain_type", block.body), "FACE_GROUND");
+  assert.equal(valueFor("base_size", block.body), "8", "home clearing must retain its open core");
+  assert.equal(valueFor("zone", block.body), zone);
+  assert.equal(valueFor("land_id", block.body), undefined);
+}
+
+for (const [position, terrain] of [
+  [[22, 35], "HAIR_FOREST"],
+  [[78, 35], "HAIR_FOREST"],
+  [[24, 68], "BEARD_FOREST"],
+  [[76, 68], "BEARD_FOREST"],
+]) {
+  const block = landsByPosition.get(position.join(","));
+  assert.ok(block, `home woodline ${position.join(",")} is missing`);
+  assert.equal(valueFor("terrain_type", block.body), terrain);
+  assert.equal(valueFor("base_size", block.body), "3");
+  assert.equal(valueFor("land_percent", block.body), "100");
+}
 
 /* Smile contract: high corners, lower side arcs, and the lowest center. */
 const smileLeft = landWithId(lands, "LEFT_SMILE_CORNER_ID");
@@ -415,12 +475,7 @@ for (const id of [
 }
 
 const terrainBlocks = blocksFor("create_terrain", code);
-assert.equal(terrainBlocks.length, 1, "only the water-depth texture may be random");
-assert.equal(terrainBlocks[0].name, "SEA_DEEP");
-assert.equal(valueFor("base_terrain", terrainBlocks[0].body), "SEA_WATER");
-assert.equal(valueFor("land_percent", terrainBlocks[0].body), "52");
-assert.equal(valueFor("number_of_clumps", terrainBlocks[0].body), "18");
-assert.equal(valueFor("terrain_mask", terrainBlocks[0].body), "1");
+assert.equal(terrainBlocks.length, 0, "all surrounding water must remain dockable terrain 1");
 
 const objects = blocksFor("create_object", code);
 const perPlayer = objects.filter((block) => /\bset_place_for_every_player\b/.test(block.body));
@@ -431,12 +486,7 @@ for (const [name, expected] of [
   ["VILLAGER", 9],
   ["HOUSE", 2],
   ["SCOUT", 1],
-  ["START_HERDABLE", 8],
-  ["START_LUREABLE", 2],
-  ["START_HUNTABLE", 4],
-  ["FORAGE", 6],
-  ["SHORE_FISH", 4],
-  ["HARBOR_FISH", 6],
+  ["START_TREE", 9],
 ]) {
   assert.equal(totalFor(name, perPlayer), expected, `${name} per-player total must be ${expected}`);
 }
@@ -449,17 +499,22 @@ const villagers = perPlayer.filter((block) => block.name === "VILLAGER");
 assert.equal(villagers.length, 1, "villagers must use one compact start block");
 assert.equal(valueFor("actor_area_to_place_in", villagers[0].body), "VILLAGER_AREA");
 
-const forages = perPlayer.filter((block) => block.name === "FORAGE");
-assert.equal(forages.length, 1, "berries must use one home forage block");
-assert.equal(valueFor("actor_area", forages[0].body), "BERRIES_AREA");
-assert.equal(valueFor("actor_area_radius", forages[0].body), "5");
-
 const startTrees = perPlayer.filter((block) => block.name === "START_TREE");
 assert.equal(startTrees.length, 2, "one villager anchor and one straggler block are required");
 assert.equal(totalFor("START_TREE", perPlayer), 9, "each player requires eight stragglers plus the anchor tree");
 
 assert.equal(totalFor("GOLD", perPlayer), 0, "mines must not use fallible per-player placement");
 assert.equal(totalFor("STONE", perPlayer), 0, "mines must not use fallible per-player placement");
+for (const name of [
+  "START_HERDABLE",
+  "START_LUREABLE",
+  "START_HUNTABLE",
+  "FORAGE",
+  "SHORE_FISH",
+  "HARBOR_FISH",
+]) {
+  assert.equal(totalFor(name, perPlayer), 0, `${name} must use fixed mirrored slots`);
+}
 
 const fixedMines = neutral.filter((block) => block.name === "GOLD" || block.name === "STONE");
 assert.equal(fixedMines.length, 10, "ten independent fixed mine blocks are required");
@@ -489,21 +544,294 @@ for (const [landId, expected] of mineExpectations) {
   assert.match(block.body, /\bforce_placement\b/, `${landId} must be mandatory`);
 }
 
+const slotExpectations = new Map([
+  [
+    "LEFT_NEAR_SHEEP_ID",
+    {
+      object: "START_HERDABLE",
+      quantity: 4,
+      position: [14, 49],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "RIGHT_NEAR_SHEEP_ID",
+    {
+      object: "START_HERDABLE",
+      quantity: 4,
+      position: [86, 49],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "LEFT_FAR_SHEEP_ID",
+    {
+      object: "START_HERDABLE",
+      quantity: 4,
+      position: [15, 57],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "RIGHT_FAR_SHEEP_ID",
+    {
+      object: "START_HERDABLE",
+      quantity: 4,
+      position: [85, 57],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "LEFT_BERRIES_ID",
+    {
+      object: "FORAGE",
+      quantity: 6,
+      position: [7, 61],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "RIGHT_BERRIES_ID",
+    {
+      object: "FORAGE",
+      quantity: 6,
+      position: [93, 61],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "LEFT_NEAR_BOAR_ID",
+    {
+      object: "START_LUREABLE",
+      quantity: 1,
+      position: [20, 42],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 1,
+    },
+  ],
+  [
+    "RIGHT_NEAR_BOAR_ID",
+    {
+      object: "START_LUREABLE",
+      quantity: 1,
+      position: [80, 42],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 1,
+    },
+  ],
+  [
+    "LEFT_FAR_BOAR_ID",
+    {
+      object: "START_LUREABLE",
+      quantity: 1,
+      position: [24, 59],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 1,
+    },
+  ],
+  [
+    "RIGHT_FAR_BOAR_ID",
+    {
+      object: "START_LUREABLE",
+      quantity: 1,
+      position: [76, 59],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 1,
+    },
+  ],
+  [
+    "LEFT_DEER_ID",
+    {
+      object: "START_HUNTABLE",
+      quantity: 4,
+      position: [23, 49],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "RIGHT_DEER_ID",
+    {
+      object: "START_HUNTABLE",
+      quantity: 4,
+      position: [77, 49],
+      terrain: "CHEEK_GROUND",
+      zone: "HOME_RESOURCE_ZONE",
+      base: 2,
+    },
+  ],
+  [
+    "LEFT_SHORE_FISH_ID",
+    {
+      object: "SHORE_FISH",
+      quantity: 4,
+      position: [5, 52],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 3,
+    },
+  ],
+  [
+    "RIGHT_SHORE_FISH_ID",
+    {
+      object: "SHORE_FISH",
+      quantity: 4,
+      position: [95, 52],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 3,
+    },
+  ],
+  [
+    "LEFT_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 6,
+      position: [9, 29],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 4,
+    },
+  ],
+  [
+    "RIGHT_DEEP_FISH_ID",
+    {
+      object: "HARBOR_FISH",
+      quantity: 6,
+      position: [91, 29],
+      terrain: "SEA_WATER",
+      zone: "WATER_RESOURCE_ZONE",
+      base: 4,
+    },
+  ],
+]);
+
+const leftOpeningFoodIds = [
+  "LEFT_NEAR_SHEEP_ID",
+  "LEFT_FAR_SHEEP_ID",
+  "LEFT_BERRIES_ID",
+  "LEFT_NEAR_BOAR_ID",
+  "LEFT_FAR_BOAR_ID",
+  "LEFT_DEER_ID",
+];
+const leftMineIds = [...mineExpectations.keys()].filter((id) => id.startsWith("LEFT_"));
+const leftHomeWoodlands = [
+  ["LEFT_NORTH_WOODLINE", landsByPosition.get("22,35")],
+  ["LEFT_SOUTH_WOODLINE", landsByPosition.get("24,68")],
+];
+const leftWaterIds = ["LEFT_SHORE_FISH_ID", "LEFT_DEEP_FISH_ID"];
+
+function assertDisjoint(firstName, firstLand, secondName, secondLand) {
+  assert.ok(firstLand, `${firstName} land is missing`);
+  assert.ok(secondLand, `${secondName} land is missing`);
+  assert.equal(
+    boundsOverlap(boundsFor(firstLand), boundsFor(secondLand)),
+    false,
+    `${firstName} and ${secondName} authored bounds overlap`,
+  );
+}
+
+for (const [index, firstId] of leftOpeningFoodIds.entries()) {
+  for (const secondId of leftOpeningFoodIds.slice(index + 1)) {
+    assertDisjoint(firstId, landWithId(lands, firstId), secondId, landWithId(lands, secondId));
+  }
+}
+
+const foodObstacles = [
+  ...leftMineIds.map((id) => [id, landWithId(lands, id)]),
+  ...leftHomeWoodlands,
+  ...leftWaterIds.map((id) => [id, landWithId(lands, id)]),
+];
+for (const foodId of leftOpeningFoodIds) {
+  for (const [obstacleName, obstacleLand] of foodObstacles) {
+    assertDisjoint(foodId, landWithId(lands, foodId), obstacleName, obstacleLand);
+  }
+}
+
+const waterAndWoodlands = [
+  ...leftHomeWoodlands,
+  ...leftWaterIds.map((id) => [id, landWithId(lands, id)]),
+];
+for (const mineId of leftMineIds) {
+  for (const [featureName, featureLand] of waterAndWoodlands) {
+    assertDisjoint(mineId, landWithId(lands, mineId), featureName, featureLand);
+  }
+}
+for (const [woodName, woodland] of leftHomeWoodlands) {
+  for (const waterId of leftWaterIds) {
+    assertDisjoint(woodName, woodland, waterId, landWithId(lands, waterId));
+  }
+}
+
+for (const [name, expected] of [
+  ["START_HERDABLE", 16],
+  ["START_LUREABLE", 4],
+  ["START_HUNTABLE", 8],
+  ["FORAGE", 12],
+  ["SHORE_FISH", 8],
+  ["HARBOR_FISH", 12],
+]) {
+  assert.equal(totalFor(name, neutral), expected, `${name} fixed map total must be ${expected}`);
+}
+
+for (const [landId, expected] of slotExpectations) {
+  const land = landWithId(lands, landId);
+  assert.deepEqual(
+    pairFor("land_position", land.body),
+    expected.position,
+    `${landId} position drifted`,
+  );
+  assert.equal(valueFor("terrain_type", land.body), expected.terrain, `${landId} terrain drifted`);
+  assert.equal(valueFor("zone", land.body), expected.zone, `${landId} zone drifted`);
+  assert.equal(valueFor("base_size", land.body), String(expected.base), `${landId} size drifted`);
+
+  const blocks = neutral.filter(
+    (block) => valueFor("place_on_specific_land_id", block.body) === landId,
+  );
+  assert.equal(blocks.length, 1, `${landId} must receive exactly one object block`);
+  const [block] = blocks;
+  assert.equal(block.name, expected.object, `${landId} has the wrong object`);
+  assert.equal(objectQuantity(block), expected.quantity, `${landId} quantity drifted`);
+  assert.equal(
+    valueFor("avoid_other_land_zones", block.body),
+    "0",
+    `${landId} object must stay inside its land`,
+  );
+  assert.equal(
+    valueFor("terrain_to_place_on", block.body),
+    expected.terrain,
+    `${landId} object terrain drifted`,
+  );
+  assert.match(block.body, /\bset_gaia_object_only\b/, `${landId} object must be Gaia-owned`);
+  assert.match(block.body, /\bfind_closest\b/, `${landId} object must resolve from its land origin`);
+  assert.match(block.body, /\bforce_placement\b/, `${landId} object must be mandatory`);
+}
+
 const stragglers = startTrees.find(
   (block) => valueFor("number_of_objects", block.body) === "8",
 );
 assert.ok(stragglers, "the eight emergency stragglers must remain identifiable");
-
-for (const area of ["TC_AREA", "BERRIES_AREA"]) {
-  assert.ok(
-    valuesFor("avoid_actor_area", stragglers.body).includes(area),
-    `emergency stragglers must avoid ${area}`,
-  );
-}
-
-assert.match(forages[0].body, /\bset_circular_placement\b/, "berries must use circular distances");
-assert.match(forages[0].body, /\bfind_closest\b/, "berries must use the closest valid distance");
-assert.match(forages[0].body, /\benable_tile_shuffling\b/, "berries must avoid directional tile bias");
+assert.ok(
+  valuesFor("avoid_actor_area", stragglers.body).includes("TC_AREA"),
+  "emergency stragglers must avoid the Town Center",
+);
 
 const relics = neutral.filter((block) => block.name === "RELIC");
 assert.equal(totalFor("RELIC", relics), 5, "the face requires exactly five relics");
@@ -533,13 +861,14 @@ assert.equal(totalFor("DECORATIVE_ROCK", neutral), 18, "facial rock detail count
 
 console.log(`Mirrorwake validation passed: ${rmsPath}`);
 console.log("  sections and control flow: valid");
-console.log("  portrait: 54 fixed lands with exact horizontal symmetry");
+console.log("  portrait: 76 fixed lands with exact horizontal symmetry");
 console.log("  smile: raised corners, visible teeth, and a three-part lower U-arc");
 console.log("  start: 9 villagers, Town Center, 2 houses, and scout per player");
 console.log("  player origins: ID-free for reliable per-player object generation");
-console.log("  economy: 15 gold and 9 stone per side; 8 sheep, 2 boar, and 4 deer per player");
+console.log("  home space: protected ear clearings with two fixed woodlines per side");
+console.log("  land food: fixed slots provide 8 sheep, 2 boar, 4 deer, and 6 berries per side");
+console.log("  footprints: opening food, mines, home woodlines, and coves do not overlap");
 console.log("  mines: 10 mandatory fields confined to fixed mirrored clearings");
-console.log("  home economy: clearing terrain separates mines from random food and trees");
-console.log("  hybrid food: 4 shore fish and 6 deep fish per player");
+console.log("  water: dockable terrain 1, carved coves, and 4 shore plus 6 deep fish per side");
 console.log("  objectives: 5 relics confined to the eyes, cheeks, and nose");
 console.log("  prohibited gameplay modifications: absent");

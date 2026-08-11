@@ -1,6 +1,6 @@
 /* Compatibility: Age of Empires II: Definitive Edition */
 /*
-    Mirrorwake v0.2.1
+    Mirrorwake v0.3.0
     The Garrison 2026 map competition prototype.
 
     Designed for:
@@ -16,13 +16,15 @@
       - Raised cheeks, bright eyes, a highlighted nose, visible teeth, and an
         exaggerated upturned mouth keep the expression readable at full zoom.
       - Five relics mark the eyes, cheeks, and nose.
-      - A navigable water ring supports docks and naval counterplay.
+      - Dockable water, carved ear coves, and fixed fish schools support
+        reliable naval counterplay.
 
     Competitive integrity:
       - Every strategic feature is horizontally mirrored.
       - Player colors swap sides independently of the fixed portrait.
       - Mine clearings use terrain reserved from food and trees.
-      - Ten fixed mirrored clearings guarantee every gold and stone field.
+      - Fixed mirrored slots guarantee food, fish, gold, and stone.
+      - Protected ear plateaus guarantee building room and two home woodlines.
       - Assigned ear lands remain ID-free so DE repeats every player object.
       - No unit or building attributes are changed.
       - No triggers, XS, custom includes, scripted income, capturable
@@ -33,8 +35,7 @@
 #const FACE_GROUND 14
 #const CHEEK_GROUND 41
 #const NOSE_GROUND 42
-#const SEA_WATER 23
-#const SEA_DEEP 22
+#const SEA_WATER 1
 #const HAIR_FOREST 19
 #const BEARD_FOREST 106
 #const BROW_GROUND 40
@@ -79,17 +80,38 @@
 #const LEFT_FORWARD_GOLD_ID 441
 #const RIGHT_FORWARD_GOLD_ID 442
 
+/* Fixed mirrored opening-food slots. */
+#const LEFT_NEAR_SHEEP_ID 501
+#const RIGHT_NEAR_SHEEP_ID 502
+#const LEFT_FAR_SHEEP_ID 503
+#const RIGHT_FAR_SHEEP_ID 504
+#const LEFT_BERRIES_ID 511
+#const RIGHT_BERRIES_ID 512
+#const LEFT_NEAR_BOAR_ID 521
+#const RIGHT_NEAR_BOAR_ID 522
+#const LEFT_FAR_BOAR_ID 523
+#const RIGHT_FAR_BOAR_ID 524
+#const LEFT_DEER_ID 531
+#const RIGHT_DEER_ID 532
+
+/* Fixed dock-cove and deep-fish slots. */
+#const LEFT_SHORE_FISH_ID 541
+#const RIGHT_SHORE_FISH_ID 542
+#const LEFT_DEEP_FISH_ID 551
+#const RIGHT_DEEP_FISH_ID 552
+
 /* Land zones. */
 #const FACE_ZONE 10
 #const LEFT_HOME_ZONE 11
 #const RIGHT_HOME_ZONE 12
 #const FEATURE_ZONE 20
 #const RESOURCE_ZONE 30
+#const HOME_RESOURCE_ZONE 31
+#const WATER_RESOURCE_ZONE 32
 
 /* Per-player actor areas. */
 #const TC_AREA 1000
 #const VILLAGER_AREA 1010
-#const BERRIES_AREA 1040
 
 /* Player color never determines the side of the portrait. */
 start_random
@@ -273,12 +295,12 @@ create_land {
 create_land {
     terrain_type FACE_GROUND
     land_percent 100
-    base_size 7
+    base_size 9
     land_position 14 52
-    left_border 9
-    right_border 73
-    top_border 41
-    bottom_border 36
+    left_border 5
+    right_border 68
+    top_border 35
+    bottom_border 31
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -293,12 +315,12 @@ create_land {
 create_land {
     terrain_type FACE_GROUND
     land_percent 100
-    base_size 7
+    base_size 9
     land_position 86 52
-    left_border 73
-    right_border 9
-    top_border 41
-    bottom_border 36
+    left_border 68
+    right_border 5
+    top_border 35
+    bottom_border 31
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -818,6 +840,362 @@ create_land {
 }
 
 /*
+    These late home plateaus repaint the ear interiors after all portrait
+    details, guaranteeing a large buildable core around each Town Center.
+*/
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 8
+    land_position 15 52
+    left_border 7
+    right_border 68
+    top_border 36
+    bottom_border 32
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone LEFT_HOME_ZONE
+}
+
+create_land {
+    terrain_type FACE_GROUND
+    land_percent 100
+    base_size 8
+    land_position 85 52
+    left_border 68
+    right_border 7
+    top_border 36
+    bottom_border 32
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone RIGHT_HOME_ZONE
+}
+
+/* Two compact, guaranteed woodlines frame every home plateau. */
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 3
+    land_position 22 35
+    left_border 18
+    right_border 74
+    top_border 31
+    bottom_border 61
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type HAIR_FOREST
+    land_percent 100
+    base_size 3
+    land_position 78 35
+    left_border 74
+    right_border 18
+    top_border 31
+    bottom_border 61
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 3
+    land_position 24 68
+    left_border 20
+    right_border 72
+    top_border 64
+    bottom_border 28
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+create_land {
+    terrain_type BEARD_FOREST
+    land_percent 100
+    base_size 3
+    land_position 76 68
+    left_border 72
+    right_border 20
+    top_border 64
+    bottom_border 28
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone FEATURE_ZONE
+}
+
+/* Fixed food glades replace fallible searches across the crowded portrait. */
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 14 49
+    left_border 11
+    right_border 83
+    top_border 46
+    bottom_border 48
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_NEAR_SHEEP_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 86 49
+    left_border 83
+    right_border 11
+    top_border 46
+    bottom_border 48
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_NEAR_SHEEP_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 15 57
+    left_border 12
+    right_border 82
+    top_border 54
+    bottom_border 40
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_FAR_SHEEP_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 85 57
+    left_border 82
+    right_border 12
+    top_border 54
+    bottom_border 40
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_FAR_SHEEP_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 7 61
+    left_border 4
+    right_border 90
+    top_border 58
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_BERRIES_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 93 61
+    left_border 90
+    right_border 4
+    top_border 58
+    bottom_border 36
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_BERRIES_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 1
+    land_position 20 42
+    left_border 18
+    right_border 78
+    top_border 40
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_NEAR_BOAR_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 1
+    land_position 80 42
+    left_border 78
+    right_border 18
+    top_border 40
+    bottom_border 56
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_NEAR_BOAR_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 1
+    land_position 24 59
+    left_border 22
+    right_border 74
+    top_border 57
+    bottom_border 39
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_FAR_BOAR_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 1
+    land_position 76 59
+    left_border 74
+    right_border 22
+    top_border 57
+    bottom_border 39
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_FAR_BOAR_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 23 49
+    left_border 20
+    right_border 74
+    top_border 46
+    bottom_border 48
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id LEFT_DEER_ID
+}
+
+create_land {
+    terrain_type CHEEK_GROUND
+    land_percent 100
+    base_size 2
+    land_position 77 49
+    left_border 74
+    right_border 20
+    top_border 46
+    bottom_border 48
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone HOME_RESOURCE_ZONE
+    land_id RIGHT_DEER_ID
+}
+
+/*
+    Dockable-water lands cut broad coves into the outer ears and reserve one
+    additional offshore school per side. All surrounding water is terrain 1.
+*/
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 3
+    land_position 5 52
+    left_border 2
+    right_border 91
+    top_border 48
+    bottom_border 44
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_SHORE_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 3
+    land_position 95 52
+    left_border 91
+    right_border 2
+    top_border 48
+    bottom_border 44
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_SHORE_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 4
+    land_position 9 29
+    left_border 4
+    right_border 86
+    top_border 24
+    bottom_border 66
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id LEFT_DEEP_FISH_ID
+}
+
+create_land {
+    terrain_type SEA_WATER
+    land_percent 100
+    base_size 4
+    land_position 91 29
+    left_border 86
+    right_border 4
+    top_border 24
+    bottom_border 66
+    border_fuzziness 100
+    clumping_factor 100
+    other_zone_avoidance_distance 0
+    zone WATER_RESOURCE_ZONE
+    land_id RIGHT_DEEP_FISH_ID
+}
+
+/*
     Mine clearings are neutral fixed lands rather than repeated player objects.
     Their warm terrain excludes random food and trees while preserving the face.
 */
@@ -825,11 +1203,11 @@ create_land {
     terrain_type CHEEK_GROUND
     number_of_tiles 49
     base_size 3
-    land_position 12 44
-    left_border 8
-    right_border 84
-    top_border 40
-    bottom_border 52
+    land_position 9 41
+    left_border 5
+    right_border 87
+    top_border 37
+    bottom_border 55
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -841,11 +1219,11 @@ create_land {
     terrain_type CHEEK_GROUND
     number_of_tiles 49
     base_size 3
-    land_position 88 44
-    left_border 84
-    right_border 8
-    top_border 40
-    bottom_border 52
+    land_position 91 41
+    left_border 87
+    right_border 5
+    top_border 37
+    bottom_border 55
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -857,11 +1235,11 @@ create_land {
     terrain_type CHEEK_GROUND
     number_of_tiles 36
     base_size 3
-    land_position 21 60
-    left_border 17
-    right_border 75
-    top_border 56
-    bottom_border 36
+    land_position 15 66
+    left_border 11
+    right_border 81
+    top_border 62
+    bottom_border 30
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -873,11 +1251,11 @@ create_land {
     terrain_type CHEEK_GROUND
     number_of_tiles 36
     base_size 3
-    land_position 79 60
-    left_border 75
-    right_border 17
-    top_border 56
-    bottom_border 36
+    land_position 85 66
+    left_border 81
+    right_border 11
+    top_border 62
+    bottom_border 30
     border_fuzziness 100
     clumping_factor 100
     other_zone_avoidance_distance 0
@@ -989,15 +1367,7 @@ create_land {
 
 <TERRAIN_GENERATION>
 
-/* Varied depths make the naval ring legible without changing its topology. */
-create_terrain SEA_DEEP {
-    base_terrain SEA_WATER
-    land_percent 52
-    number_of_clumps 18
-    clumping_factor 8
-    spacing_to_other_terrain_types 2
-    terrain_mask 1
-}
+/* All water remains dockable terrain 1; no dark-water layer can seal a coast. */
 
 
 <CONNECTION_GENERATION>
@@ -1058,33 +1428,57 @@ create_object SCOUT {
     terrain_to_place_on FACE_GROUND
 }
 
-/* Standard, equal opening food. */
+/* Fixed mirrored opening food: every group is confined to a reserved glade. */
 create_object START_HERDABLE {
     number_of_objects 4
     number_of_groups 1
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 4
-    max_distance_to_players 7
+    place_on_specific_land_id LEFT_NEAR_SHEEP_ID
+    avoid_other_land_zones 0
     find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object START_HERDABLE {
     number_of_objects 4
     number_of_groups 1
-    group_placement_radius 3
+    group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 9
-    max_distance_to_players 12
+    place_on_specific_land_id RIGHT_NEAR_SHEEP_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 4
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object START_HERDABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_FAR_SHEEP_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object START_HERDABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_FAR_SHEEP_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object FORAGE {
@@ -1093,52 +1487,90 @@ create_object FORAGE {
     group_placement_radius 2
     set_tight_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 9
-    max_distance_to_players 14
-    set_circular_placement
+    place_on_specific_land_id LEFT_BERRIES_ID
+    avoid_other_land_zones 0
     find_closest
-    enable_tile_shuffling
     force_placement
-    terrain_to_place_on FACE_GROUND
-    avoid_actor_area TC_AREA
-    actor_area BERRIES_AREA
-    actor_area_radius 5
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object FORAGE {
+    number_of_objects 6
+    number_of_groups 1
+    group_placement_radius 2
+    set_tight_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_BERRIES_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object START_LUREABLE {
     number_of_objects 1
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 12
-    max_distance_to_players 17
+    place_on_specific_land_id LEFT_NEAR_BOAR_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 4
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object START_LUREABLE {
     number_of_objects 1
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 15
-    max_distance_to_players 20
+    place_on_specific_land_id RIGHT_NEAR_BOAR_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
-    temp_min_distance_group_placement 6
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object START_LUREABLE {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id LEFT_FAR_BOAR_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object START_LUREABLE {
+    number_of_objects 1
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_FAR_BOAR_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 create_object START_HUNTABLE {
     number_of_objects 4
     number_of_groups 1
-    group_placement_radius 4
+    group_placement_radius 3
     set_loose_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 13
-    max_distance_to_players 19
+    place_on_specific_land_id LEFT_DEER_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
-    terrain_to_place_on FACE_GROUND
+    terrain_to_place_on CHEEK_GROUND
+}
+
+create_object START_HUNTABLE {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 3
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_DEER_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on CHEEK_GROUND
 }
 
 /* Fixed home mines: identical clearings at the two ears. */
@@ -1283,39 +1715,62 @@ create_object START_TREE {
     force_placement
     terrain_to_place_on FACE_GROUND
     avoid_actor_area TC_AREA
-    avoid_actor_area BERRIES_AREA
     temp_min_distance_group_placement 1
 }
 
-/* Equal water food beside each ear makes a dock viable but not mandatory. */
+/* Fixed fish schools: one dock-cove group and one offshore group per side. */
 create_object SHORE_FISH {
     number_of_objects 4
     number_of_groups 1
-    group_placement_radius 5
+    group_placement_radius 3
     set_loose_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 9
-    max_distance_to_players 18
-    min_distance_to_map_edge 3
-    terrain_to_place_on SEA_WATER
-    temp_min_distance_group_placement 4
+    place_on_specific_land_id LEFT_SHORE_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on SEA_WATER
+}
+
+create_object SHORE_FISH {
+    number_of_objects 4
+    number_of_groups 1
+    group_placement_radius 3
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_SHORE_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
 }
 
 create_object HARBOR_FISH {
     number_of_objects 3
     number_of_groups 2
-    group_placement_radius 6
+    group_placement_radius 4
     set_loose_grouping
     set_gaia_object_only
-    set_place_for_every_player
-    min_distance_to_players 14
-    max_distance_to_players 31
-    min_distance_to_map_edge 4
-    terrain_to_place_on SEA_WATER
-    temp_min_distance_group_placement 7
+    place_on_specific_land_id LEFT_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
     force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 5
+}
+
+create_object HARBOR_FISH {
+    number_of_objects 3
+    number_of_groups 2
+    group_placement_radius 4
+    set_loose_grouping
+    set_gaia_object_only
+    place_on_specific_land_id RIGHT_DEEP_FISH_ID
+    avoid_other_land_zones 0
+    find_closest
+    force_placement
+    terrain_to_place_on SEA_WATER
+    temp_min_distance_group_placement 5
 }
 
 /* Five facial objectives: both eyes, both raised cheeks, and the nose tip. */

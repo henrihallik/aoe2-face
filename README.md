@@ -2,7 +2,7 @@
 
 `Mirrorwake` is a competitive 1v1 hybrid map for Age of Empires II: Definitive Edition. The entire playable island forms an original face-shaped terrain portrait.
 
-Players begin at mirrored ear positions with the required 9-villager tournament start. The open face provides the direct land battlefield, while the pine hair and salt-and-pepper beard are ordinary harvestable woodlines that can become alternate attack routes. A navigable water ring supports docks and naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
+Players begin on large mirrored ear plateaus with the required 9-villager tournament start. Every opening food group, mine, woodline, and fish school has a fixed mirrored slot. The open face provides the direct land battlefield, while the pine hair and salt-and-pepper beard remain ordinary harvestable woodlines and choppable attack routes. A dockable water ring with carved home coves supports reliable naval counterplay. Five relics mark both eyes, both raised cheeks, and the central nose.
 
 ## Download
 
@@ -28,14 +28,15 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 ## Competitive Layout
 
 - Two horizontally mirrored player starts, independent of player color
-- ID-free player origins preserve DE's per-player generation for start units and food
+- ID-free player origins preserve DE's per-player generation for starting units and buildings
 - 9 villagers, one Town Center, two houses, and one scout per player
-- 8 sheep, 2 boar, 4 deer, and 6 berries per player
+- Protected home plateaus reserve practical building and farming space
+- 8 sheep, 2 boar, 4 deer, and 6 berries per side in fixed mirrored glades
 - 15 gold and 9 stone per side across home, secondary, and forward fields
 - Ten fixed mirrored mine clearings guarantee that every gold and stone field exists
-- Reserved clearing terrain prevents random food and trees from occupying mine tiles
-- 8 emergency stragglers plus large harvestable hair and beard forests
-- 4 shore fish and 6 deep fish per player
+- Two guaranteed 8 x 8 home woodlines per side, plus 8 emergency stragglers and the portrait forests
+- Dockable water terrain 1 and a broad cove beside each ear start
+- 4 shore fish and 6 deep fish per side in fixed water slots
 - 5 fixed central relics confined to their eye, cheek, and nose landmark zones
 - No triggers, XS, custom includes, capturable buildings, scripted income, or unit/building attribute changes
 
@@ -43,7 +44,7 @@ This is deliberately a 1v1-only competition design. Additional player slots are 
 
 - **Open face:** the eyes, cheeks, and nose create several direct land fronts.
 - **Choppable frame:** hair and beard provide the principal wood economy and open new late-game lanes as they are harvested.
-- **Naval ring:** both ear starts can dock, raid the opposite coast, or contest fish without making water mandatory.
+- **Naval ring:** carved ear coves open directly onto dockable water, allowing either player to fish, raid the opposite coast, or contest the ring without making water mandatory.
 - **Central objective:** the raised nose is the most central high ground and an obvious castle position.
 - **Five-feature relic layout:** relic control pulls armies across both eyes, both cheeks, and the nose rather than stacking value in one spot.
 - **Known resource fronts:** mirrored fixed mine fields make expansion value predictable while their exposure still rewards map control.
@@ -56,7 +57,7 @@ Run the map-specific validator with Node.js:
 node tools/validate-rms.mjs
 ```
 
-The validator checks RMS structure, fixed map size, terrain safety, all 54 authored lands, horizontal symmetry, the recognizable head silhouette, player starts, all ten fixed mine clearings and bindings, food, fish, relics, and prohibited gameplay modifications.
+The validator checks RMS structure, fixed map size, dockable water, all 76 authored lands, horizontal symmetry, the recognizable head silhouette, protected home space, fixed woodlines, every food/fish/mine slot and binding, relics, and prohibited gameplay modifications.
 
 Static validation cannot prove Definitive Edition runtime behavior or portrait readability. Complete the in-game checklist in [`submission/runtime-test-checklist.md`](submission/runtime-test-checklist.md) before submitting the map.
 
